@@ -206,3 +206,15 @@ fabric.properties
 /web/js/
 
 # End of https://www.toptal.com/developers/gitignore/api/phpstorm,symfony,composer
+/.idea/codeception.xml
+/.idea/dataSources.xml
+/.idea/commandlinetools/schemas/frameworkDescriptionVersion1.1.4.xsd
+/.idea/modules.xml
+/.idea/php.xml
+/.idea/phpspec.xml
+/.idea/phpunit.xml
+/.idea/ProjetSortir.iml
+/.idea/commandlinetools/Symfony_3_25_25__9_17_AM.xml
+/.idea/vcs.xml
+/.env
+/.idea/symfony2.xml
