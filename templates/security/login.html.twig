@@ -3,6 +3,10 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
+
+    <div class="d-flex justify-content-center mt-10">
+    <div class="w-25 border border-black p-3 rounded-5 shadow p-3 mb-5 bg-body-tertiary rounded">
+
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -14,7 +18,9 @@
         </div>
     {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+
+
+    <h1 class="h3 mb-3 font-weight-normal text-center">Please sign in</h1>
     <label for="inputEmail">Email</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
     <label for="inputPassword">Password</label>
@@ -30,8 +36,17 @@
         </label>
     </div>
 
-    <button class="btn btn-lg btn-primary" type="submit">
+    <div class="d-flex justify-content-center justify-content-evenly">
+    <button  href="{{ path('app_main') }}" class="btn btn-lg btn-primary" type="submit">
         Sign in
     </button>
+
+    <a href="{{ path('app_register') }}" class="btn btn-lg btn-info text-white">Register</a>
+    </div>
 </form>
+
+
+    </div>
+    </div>
+
 {% endblock %}
