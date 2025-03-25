@@ -9,10 +9,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
+
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email','username'])]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity(fields: ['email'], message: 'Il y a déja un compte avec cet email')]
+#[UniqueEntity(fields: ['pseudo'], message: 'Il y a déja un compte avec ce pseudo')]
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -21,6 +25,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(message: "Email obligatoire !")]
     private ?string $email = null;
 
     /**
@@ -33,21 +38,30 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+//    #[Assert\NotBlank(message: "Mot de passe obligatoire !")]
+//    #[Assert\Length(min: 6, max: 255, minMessage: "Mot de passe trop court (min 6)", maxMessage: "Mot de passe trop long (max 255)")]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 2, max: 255, minMessage: "Nom trop court (min 2)", maxMessage: "Nom trop long (max 255)")]
+    #[Assert\NotBlank(message: "Nom obligatoire !")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 2, max: 255, minMessage: "Prenom trop court (min 2)", maxMessage: "Prenom trop long (max 255)")]
+    #[Assert\NotBlank(message: "Prenom obligatoire !")]
     private ?string $prenom = null;
 
     #[ORM\Column]
     private ?bool $actif = null;
 
     #[ORM\Column(length: 12)]
+    #[Assert\Length(min: 10, max: 12, minMessage: "Numéro trop court", maxMessage: "Numéro trop long")]
+    #[Assert\NotBlank(message: "Telephone obligatoire !")]
     private ?string $telephone = null;
 
     #[ORM\ManyToOne(inversedBy: 'participants')]
+    #[Assert\NotBlank(message: "Vous devez être rattaché à un site !")]
     private ?Site $site = null;
 
     /**
@@ -61,6 +75,11 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Sortie::class, mappedBy: 'organisateur', orphanRemoval: true)]
     private Collection $sortiesCree;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Pseudo obligatoire !")]
+    #[Assert\Length(min: 3, max: 255, minMessage: "Mot de passe trop court (min 3)", maxMessage: "Mot de passe trop long (max 255)")]
+    private ?string $pseudo = null;
 
     public function __construct()
     {
@@ -253,6 +272,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
                 $sortiesCree->setOrganisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): static
+    {
+        $this->pseudo = $pseudo;
 
         return $this;
     }
