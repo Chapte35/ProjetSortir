@@ -64,7 +64,7 @@ final class UserCrudController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_user_crud_edit');
+            return $this->redirectToRoute('app_profil');
         }
         return $this->render('edit.html.twig', [
             'participantForm' => $participantForm->createView(),
@@ -90,12 +90,19 @@ final class UserCrudController extends AbstractController
 //    ]);
 //        }
 
-    #[Route('/user/crud/delete', name: 'app_user_crud_delete')]
-    public function delete(): Response
-    {
-        return $this->render('user_crud/delete.html.twig', [
-            'controller_name' => 'UserCrudController',
-        ]);
+    #[Route('/user/crud/delete', name: 'app_user_delete', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+    public function delete(
+        ParticipantRepository  $participantRepository,
+        EntityManagerInterface $entityManager
+    ): Response
+ {
+     $entityManager->remove($participantRepository);
+     $entityManager->flush();
+
+        $this->addFlash("success","Utilisateur supprimé !");
+
+        return $this->redirectToRoute('app_main');
+
     }
 }
 
