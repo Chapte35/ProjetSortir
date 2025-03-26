@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -34,12 +35,13 @@ final class SortieController extends AbstractController
             $user = $this->getUser();
 
 
-        if ($form->isSubmitted() && $form->isValid() && $_POST['action'] == 'publier' && $this->container->get('security.authorization_checker')->isGranted('ROLE_USER')){
+        if ($form->isSubmitted() && $form->isValid()  && $this->container->get('security.authorization_checker')->isGranted('ROLE_USER')){
+
 
             $sortie->setDuree(DateInterval::createFromDateString($form->get('dureeMinutes')->getData()." min"));
-            $sortie ->setEstPublie(true);
             $sortie ->setOrganisateur($this->getUser());
             $sortie -> setEtat($etatRepository->find(1));
+            $sortie ->setEstPublie($_POST['action'] == 'publier');
 
             $entityManager -> persist($sortie);
             $entityManager ->flush();
@@ -48,7 +50,9 @@ final class SortieController extends AbstractController
 
             $this->redirectToRoute('app_main');
 
-        }}
+        }}else{
+            $form->addError(new FormError("Vous devez être connecté pour publier cette sortie"));
+        }
 
         return $this->render('sortie/creer.html.twig', [
             'controller_name' => 'SortieController',

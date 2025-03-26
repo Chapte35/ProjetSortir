@@ -10,7 +10,7 @@
         <div>
         <button type="submit" class="btn btn-secondary w-100 mb-3" name="action" value="enregistrer">Enregistrer</button>
         <button type="submit" class="btn btn-success w-100 mb-3" name="action" value="publier">Publier la sortie</button>
-        <button type="submit" class="btn btn-warning w-100 mb-3" name="action" value="annuler">Annuler</button>
+        <a type="submit" class="btn btn-warning w-100 mb-3" href="{{ path('app_main') }}">Annuler</a>
         </div>
         {{ form_end(form) }}
     </div>
