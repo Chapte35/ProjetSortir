@@ -29,4 +29,29 @@ class UserController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+
+    #[Route(path: '/Profil', name: 'app_profil')]
+    public function Profil(): Response{
+
+        $user = $this->getUser();
+        $pseudo = $user->getPseudo();
+        $nom = $user->getNom();
+        $prenom = $user->getPrenom();
+        $email = $user->getEmail();
+        $telephone = $user->getTelephone();
+        $site = $user->getSite()->getNom();
+
+
+
+
+        return $this->render('user/Profil.html.twig',[
+            'nom' => $nom,
+            'prenom' => $prenom,
+            'email' => $email,
+            'telephone' => $telephone,
+            'site' => $site,
+            'pseudo' => $pseudo
+        ]);
+    }
 }
+
