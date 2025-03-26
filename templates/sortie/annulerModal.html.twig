@@ -33,7 +33,7 @@
             const button = event.relatedTarget;
             const sortieId = button.getAttribute('data-sortie-id');
             sortieIdInput.value = sortieId;
-            console.log("id : " + sortieId);
+            // console.log("id : " + sortieId);
 
 
         // Soumettre le formulaire d'annulation
@@ -42,15 +42,15 @@
 
             const formData = new FormData(this);
 
-            console.log('Envoi de la requête avec ID:', sortieId);
-            console.log('URL de la requête:', `/sortie/submit-justification/${sortieId}`);
+            // console.log('Envoi de la requête avec ID:', sortieId);
+            // console.log('URL de la requête:', `/sortie/submit-justification/${sortieId}`);
 
             fetch(`/sortie/submit-justification/${sortieId}`, {
                 method: 'POST',
                 body: formData
             })
                 .then(response => {
-                    console.log('Statut de la réponse:', response.status);
+                    // console.log('Statut de la réponse:', response.status);
 
                     const contentType = response.headers.get('content-type');
                     if (contentType && contentType.includes('application/json')) {
@@ -63,7 +63,7 @@
                     }
                 })
                 .then(data => {
-                    console.log('Données reçues:', data);
+                    // console.log('Données reçues:', data);
 
                     if (data.success) {
                         // Fermer le modal
