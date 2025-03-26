@@ -7,14 +7,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="justificationForm" method="POST">
+                <input type="hidden" id="sortieId" name="sortieId">
                 <div class="modal-body">
                     {{ form_start(form) }}
                     {{ form_row(form.justification) }}
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-primary" id="submitJustification">Valider</button>
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-danger" id="submitJustification">Valider</button>
                     {{ form_end(form) }}
                 </div>
             </form>
@@ -24,35 +25,66 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const justificationForm = document.getElementById('justificationForm');
-        const submitButton = document.getElementById('submitJustification');
-        const modal = new bootstrap.Modal(document.getElementById('justificationModal'));
+        const justificationModal = document.getElementById('justificationModal');
+        const sortieIdInput = document.getElementById('sortieId');
 
+        // Récupérer l'ID de sortie lors de l'ouverture du modal
+        justificationModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const sortieId = button.getAttribute('data-sortie-id');
+            sortieIdInput.value = sortieId;
+            console.log("id : " + sortieId);
+
+
+        // Soumettre le formulaire d'annulation
         justificationForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const formData = new FormData(justificationForm);
+            const formData = new FormData(this);
 
-            fetch('/sortie/submit-justification', {
+            console.log('Envoi de la requête avec ID:', sortieId);
+            console.log('URL de la requête:', `/sortie/submit-justification/${sortieId}`);
+
+            fetch(`/sortie/submit-justification/${sortieId}`, {
                 method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
+                body: formData
             })
-                .then(response => response.json())
+                .then(response => {
+                    console.log('Statut de la réponse:', response.status);
+
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        return response.json();
+                    } else {
+                        return response.text().then(text => {
+                            console.error('Réponse non JSON:', text);
+                            throw new Error('La réponse du serveur n\'est pas au format JSON');
+                        });
+                    }
+                })
                 .then(data => {
+                    console.log('Données reçues:', data);
+
                     if (data.success) {
+                        // Fermer le modal
+                        const modalInstance = bootstrap.Modal.getInstance(justificationModal);
+                        modalInstance.hide();
+
                         // Afficher un message de succès
                         alert(data.message);
-                        modal.hide();
+
+                        // Optionnel : recharger la page ou mettre à jour l'UI
+                        location.reload();
                     } else {
                         // Gérer les erreurs de validation
-                        console.error(data.errors);
+                        alert('Erreur : ' + (data.errors || 'Validation échouée'));
                     }
                 })
                 .catch(error => {
-                    console.error('Erreur:', error);
+                    console.error('Erreur complète:', error);
                 });
+            console.log('ID de sortie récupéré:', sortieId);
+        });
         });
     });
 </script>

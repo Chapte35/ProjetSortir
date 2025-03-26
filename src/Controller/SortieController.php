@@ -6,6 +6,8 @@ use App\Entity\Sortie;
 use App\Form\JustificationFormType;
 use App\Form\SortiesType;
 use App\Repository\EtatRepository;
+use App\Repository\ParticipantRepository;
+use App\Service\AnnulerSortieService;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerExceptionInterface;
@@ -14,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/sortie', name: 'sortie_')]
@@ -62,7 +65,7 @@ final class SortieController extends AbstractController
     }
 
     #[Route('/modifier/{id}', name: 'modifier')]
-    public function update(Sortie $sortie, Request $request, EntityManagerInterface $entityManager): Response
+    public function update(Sortie $sortie, Request $request, EntityManagerInterface $entityManager, SessionInterface $session): Response
     {
         $form = $this->createForm(SortiesType::class, $sortie);
 
@@ -110,14 +113,19 @@ final class SortieController extends AbstractController
                 $form->addError(new FormError("Vous devez être connecté pour modifier cette sortie"));
             }
 
+
         return $this->render('sortie/update.html.twig', [
             'controller_name' => 'SortieController',
-            'form' => $form
+            'form' => $form,
+            'sortieID' => $sortie->getId()
         ]);
     }
 
-    #[Route('/submit-justification', name: 'submit_justification', methods: ['POST'])]
-    public function submitJustification(Request $request): Response
+    /**
+     * @throws \Exception
+     */
+    #[Route('/submit-justification/{id}', name: 'submit_justification', methods: ['POST'])]
+    public function submitJustification(Sortie $sortie, Request $request, SessionInterface $session, AnnulerSortieService $annulerSortieService, ParticipantRepository $participantRepository): Response
     {
         $form = $this->createForm(JustificationFormType::class);
         $form->handleRequest($request);
@@ -125,8 +133,10 @@ final class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $justification = $form->get('justification')->getData();
 
-            // Traitez la justification ici (enregistrement en base, envoi par email, etc.)
-
+            // Traitement de l'annulation
+            if ($this->getUser()) {
+                $annulerSortieService->annulerSortie($sortie->getId(),$justification,$this->getUser());
+            }
 
             return $this->json([
                 'success' => true,

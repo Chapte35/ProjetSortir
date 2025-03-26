@@ -7,22 +7,24 @@
         {{ form_errors(form) }}
 
         {{ form_start(form) }}
+        <input type="hidden" id="sortieId" name="sortieId">
         {{ form_widget(form) }}
         <div>
-            <button type="submit" class="btn btn-secondary w-100 mb-3" name="action" value="enregistrer">Enregistrer</button>
+            <button type="submit" class="btn btn-dark w-100 mb-3" name="action" value="enregistrer">Enregistrer</button>
             <button type="submit" class="btn btn-success w-100 mb-3" name="action" value="publier">Publier la sortie</button>
-            <a type="submit" class="btn btn-warning w-100 mb-3" href="{{ path('app_main') }}">Annuler</a>
         </div>
         {{ form_end(form) }}
 
         <button type="button"
-                class="btn btn-primary"
+                class="btn btn-danger mb-3 w-100"
                 data-bs-toggle="modal"
-                data-bs-target="#justificationModal">
-            Annuler la Sortie
+                data-bs-target="#justificationModal"
+                data-sortie-id="{{ sortieID }}">
+            Annuler la Sortie définitivement
         </button>
 
         {# Inclure le modal #}
         {{ render(controller('App\\Controller\\SortieController::modalAction')) }}
+    </div>
 {% endblock %}
 
