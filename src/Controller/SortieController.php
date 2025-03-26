@@ -7,6 +7,8 @@ use App\Form\SortiesType;
 use App\Repository\EtatRepository;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +18,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class SortieController extends AbstractController
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     #[Route('/creer', name: 'creer')]
     public function creer(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
     {
@@ -24,7 +30,11 @@ final class SortieController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $_POST['action'] == 'publier'){
+        if ($this->getUser()){
+            $user = $this->getUser();
+
+
+        if ($form->isSubmitted() && $form->isValid() && $_POST['action'] == 'publier' && $this->container->get('security.authorization_checker')->isGranted('ROLE_USER')){
 
             $sortie->setDuree(DateInterval::createFromDateString($form->get('dureeMinutes')->getData()." min"));
             $sortie ->setEstPublie(true);
@@ -32,11 +42,13 @@ final class SortieController extends AbstractController
             $sortie -> setEtat($etatRepository->find(1));
 
             $entityManager -> persist($sortie);
-
-
             $entityManager ->flush();
 
-        }
+            $this->addFlash("success","La sortie : " . $sortie->getNom() . " à bien été publiée !");
+
+            $this->redirectToRoute('app_main');
+
+        }}
 
         return $this->render('sortie/creer.html.twig', [
             'controller_name' => 'SortieController',
