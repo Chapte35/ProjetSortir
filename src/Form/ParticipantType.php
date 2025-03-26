@@ -7,8 +7,10 @@ use App\Entity\Site;
 use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 
 class ParticipantType extends AbstractType
 {
@@ -30,6 +32,18 @@ class ParticipantType extends AbstractType
                 'class' => Sortie::class,
                 'choice_label' => 'id',
                 'multiple' => true,
+            ])
+            ->add('image', FileType::class, [
+                'label'=>'Photo de profil',
+                'mapped' =>false,
+                'required' => false,
+                'constraints' =>[
+                   new Image(
+                       maxSize: '5M',
+                       maxSizeMessage: "Format de l'image trop gros !",
+                       mimeTypesMessage: 'Format de l\'image non valide',
+
+                   )]
             ])
         ;
     }
