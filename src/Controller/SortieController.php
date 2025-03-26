@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Sortie;
 use App\Form\SortiesType;
 use App\Repository\EtatRepository;
+use App\Repository\SortieRepository;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerExceptionInterface;
@@ -54,5 +55,28 @@ final class SortieController extends AbstractController
             'controller_name' => 'SortieController',
             'form' => $form
         ]);
+
+
+
     }
+
+    #[Route('/detail/{id}', name: 'detail')]
+    public function detail(int $id,SortieRepository $sortieRepository): Response
+    {
+        $sortie = $sortieRepository->find($id);
+
+
+        return $this->render('sortie/detail.html.twig', [
+                'sortie' => $sortie,
+        ]);
+
+
+
+
+
+}
+
+
+
+
 }

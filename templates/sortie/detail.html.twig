@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1> Details de sortie : {{ sortie.nom }}</h1>
+    <div class="mt-5 ">
+                <div>
+                    <p>Date de Sortie: {{ sortie.dateHeureDebut | date('d/m/Y H:i:s')  }}</p>
+                    <p>Clôture : {{ sortie.dateLimiteInscription | date('d/m/Y H:i:s')  }}</p>
+
+                    <p>participants : {{ sortie.participants | length }}/{{ sortie.nbInscriptionsMax }}</p><button id="showToastBtn" class="btn btn-primary mt-1 mb-1">List des participants</button>
+                    <p class="card-text">{{ sortie.Etat.libelle}}</p>
+                    <p class="card-text">Organisateur : {{ sortie.organisateur.nom}} {{ sortie.organisateur.prenom}}</p>
+                    {% if app.user in sortie.participants  %}
+                        <p class="alert alert-primary w-50" role="alert">Vous étes inscrit a cette sortie</p>
+
+                        {% else %}
+                        <button type="button" class="btn btn-info">S'inscrire</button>
+                    {% endif %}
+
+
+                </div>
+                </div>
+
+
+
+    <div class="position-fixed" style="top: 30%; left: 19%; transform: translate(-50%, -50%); z-index: 1050;">
+        <div class="toast" id="myToast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+               <img src="{{ asset('imgs/participant.png') }}" class="rounded me-2" alt="...">
+                <strong class="me-auto">Participants</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                {% for participant in sortie.participants %}
+                <p class="d-inline" >{{ participant.prenom }} {{ participant.nom }}</p> <a href="{{ path('app_profil_participant', {'id': participant.id}) }}">consulter le profile de {{ participant.prenom }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script>
+
+        let toastEl = document.getElementById('myToast');
+        let toast = new bootstrap.Toast(toastEl);
+        document.getElementById('showToastBtn').addEventListener('click', function () {
+            toast.show();
+        });
+    </script>
+
+
+
+
+{% endblock %}
