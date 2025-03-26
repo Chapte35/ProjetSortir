@@ -117,7 +117,8 @@ final class SortieController extends AbstractController
         return $this->render('sortie/update.html.twig', [
             'controller_name' => 'SortieController',
             'form' => $form,
-            'sortieID' => $sortie->getId()
+            'sortieID' => $sortie->getId(),
+            'sortie' => $sortie
         ]);
     }
 
