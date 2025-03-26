@@ -9,6 +9,7 @@ use App\Entity\Site;
 use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,7 +23,7 @@ class SortiesType extends AbstractType
             ->add('dateHeureDebut', null, [
                 'widget' => 'single_text',
             ])
-            ->add('dureeMinutes', NumberType::class,[
+            ->add('dureeMinutes', IntegerType::class,[
                 'mapped' => false,
                 ])
             ->add('dateLimiteInscription', null, [

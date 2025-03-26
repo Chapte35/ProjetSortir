@@ -48,7 +48,7 @@ final class SortieController extends AbstractController
 
             $this->addFlash("success","La sortie : " . $sortie->getNom() . " à bien été publiée !");
 
-            $this->redirectToRoute('app_main');
+            return $this->redirectToRoute('app_main');
 
         }}else{
             $form->addError(new FormError("Vous devez être connecté pour publier cette sortie"));
@@ -59,4 +59,56 @@ final class SortieController extends AbstractController
             'form' => $form
         ]);
     }
+
+    #[Route('/modifier/{id}', name: 'modifier')]
+    public function update(Sortie $sortie, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(SortiesType::class, $sortie);
+
+        $form->handleRequest($request);
+
+        //Remplir le champ qui est pas mappé
+        if (!$form->isSubmitted()) {
+        $form->get('dureeMinutes')->setData($sortie->getDuree()->i);
+        }
+        //Checker l'etat du form SSI qqn est connecté
+        if ($this->getUser()){
+            $user = $this->getUser();
+
+            //Check si le mec modifie bien sa propre sortie
+            if ($this->getUser() !== $sortie->getOrganisateur()){
+                $form->addError(new FormError("Vous ne pouvez modifier que les sorties que vous avez crées"));
+            }
+
+
+            if ($form->isSubmitted() &&
+                $form->isValid()  &&
+                $this->container->get('security.authorization_checker')->isGranted('ROLE_USER') &&
+                $this->getUser() === $sortie->getOrganisateur())
+            {
+
+
+                $sortie->setDuree(DateInterval::createFromDateString($form->get('dureeMinutes')->getData()." min"));
+                $sortie ->setOrganisateur($this->getUser());
+                $sortie ->setEstPublie($_POST['action'] == 'publier');
+
+                $entityManager -> persist($sortie);
+                $entityManager ->flush();
+
+                $this->addFlash("success","La sortie : " . $sortie->getNom() . " à bien été publiée !");
+
+                return $this->redirectToRoute('app_main');
+
+            }}
+            //Msg d'erreur si pas connecté
+            else{
+                $form->addError(new FormError("Vous devez être connecté pour modifier cette sortie"));
+            }
+
+        return $this->render('sortie/update.html.twig', [
+            'controller_name' => 'SortieController',
+            'form' => $form
+        ]);
+    }
+
 }
