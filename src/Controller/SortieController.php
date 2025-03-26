@@ -79,12 +79,16 @@ final class SortieController extends AbstractController
             if ($this->getUser() !== $sortie->getOrganisateur()){
                 $form->addError(new FormError("Vous ne pouvez modifier que les sorties que vous avez crées"));
             }
-
+            //Check si le mec modifie bien une sortie pas publiée
+            if ($sortie->isEstPublie()){
+                $form->addError(new FormError("Vous ne pouvez modifier que les sorties non publiées"));
+            }
 
             if ($form->isSubmitted() &&
                 $form->isValid()  &&
                 $this->container->get('security.authorization_checker')->isGranted('ROLE_USER') &&
-                $this->getUser() === $sortie->getOrganisateur())
+                $this->getUser() === $sortie->getOrganisateur() &&
+                !$sortie->isEstPublie())
             {
 
 
