@@ -14,6 +14,15 @@
             <a type="submit" class="btn btn-warning w-100 mb-3" href="{{ path('app_main') }}">Annuler</a>
         </div>
         {{ form_end(form) }}
-    </div>
+
+        <button type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#justificationModal">
+            Annuler la Sortie
+        </button>
+
+        {# Inclure le modal #}
+        {{ render(controller('App\\Controller\\SortieController::modalAction')) }}
 {% endblock %}
 

@@ -1,0 +1,58 @@
+{# templates/justification_modal.html.twig #}
+<div class="modal fade" id="justificationModal" tabindex="-1" aria-labelledby="justificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="justificationModalLabel">Annulation de la Sortie</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="justificationForm" method="POST">
+                <div class="modal-body">
+                    {{ form_start(form) }}
+                    {{ form_row(form.justification) }}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary" id="submitJustification">Valider</button>
+                    {{ form_end(form) }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const justificationForm = document.getElementById('justificationForm');
+        const submitButton = document.getElementById('submitJustification');
+        const modal = new bootstrap.Modal(document.getElementById('justificationModal'));
+
+        justificationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(justificationForm);
+
+            fetch('/sortie/submit-justification', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Afficher un message de succès
+                        alert(data.message);
+                        modal.hide();
+                    } else {
+                        // Gérer les erreurs de validation
+                        console.error(data.errors);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                });
+        });
+    });
+</script>

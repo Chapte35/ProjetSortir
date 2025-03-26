@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Form\JustificationFormType;
 use App\Form\SortiesType;
 use App\Repository\EtatRepository;
 use DateInterval;
@@ -112,6 +113,39 @@ final class SortieController extends AbstractController
         return $this->render('sortie/update.html.twig', [
             'controller_name' => 'SortieController',
             'form' => $form
+        ]);
+    }
+
+    #[Route('/submit-justification', name: 'submit_justification', methods: ['POST'])]
+    public function submitJustification(Request $request): Response
+    {
+        $form = $this->createForm(JustificationFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $justification = $form->get('justification')->getData();
+
+            // Traitez la justification ici (enregistrement en base, envoi par email, etc.)
+
+
+            return $this->json([
+                'success' => true,
+                'message' => 'Justification enregistrée avec succès'
+            ]);
+        }
+
+        return $this->json([
+            'success' => false,
+            'errors' => $form->getErrors(true)
+        ], Response::HTTP_BAD_REQUEST);
+    }
+
+    public function modalAction(): Response
+    {
+        $form = $this->createForm(JustificationFormType::class);
+
+        return $this->render('sortie/annulerModal.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 
