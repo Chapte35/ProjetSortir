@@ -40,7 +40,7 @@ final class UserCrudController extends AbstractController
         ]);
     }
 
-//modif
+//modif du profil
     #[Route('/user/crud/edit', name: 'app_user_crud_edit', methods: ['GET', 'POST'])]
     public function edit(
         ParticipantRepository  $participantRepository,
@@ -66,7 +66,6 @@ final class UserCrudController extends AbstractController
 
             return $this->redirectToRoute('app_user_crud_edit');
         }
-//        return $this->redirectToRoute('app_main');
         return $this->render('edit.html.twig', [
             'participantForm' => $participantForm->createView(),
         ]);
@@ -74,13 +73,6 @@ final class UserCrudController extends AbstractController
 
 
 //      Pour l'upload de photo
-//        if ($participantForm->isSubmitted() && $participantForm->isValid()) {
-//            $user = $entityManager->getRepository(User::class)->find($id);
-//            if (!$user) {
-//                throw $this->createNotFoundException('Utilisateur non trouvé');
-//            }
-//
-//
 //            $photo = $participantForm->get('image')->getData();
 //            $participantForm->setImage();
 //            $uploader->save($photo, $participantForm->getName(), $this->getParameter('photo_profil_dir')

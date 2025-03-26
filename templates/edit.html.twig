@@ -6,13 +6,7 @@
     <h1>Modifier mon profil</h1>
 
     {{ form_start(participantForm) }}
-    {{ form_row(participantForm.pseudo) }}
-    {{ form_row(participantForm.nom) }}
-    {{ form_row(participantForm.prenom) }}
-    {{ form_row(participantForm.telephone) }}
-    {{ form_row(participantForm.email) }}
-    {{ form_row(participantForm.password) }}
-    {{ form_row(participantForm.site) }}
+    {{ form_widget(participantForm) }}
 
     <button type="submit">Enregistrer les modifications</button>
     {{ form_end(participantForm) }}
