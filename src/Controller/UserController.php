@@ -76,13 +76,15 @@ class UserController extends AbstractController
         $site = $participant->getSite()->getNom();
 
 
+
         return $this->render('user/Profil.html.twig',[
             'nom' => $nom,
             'prenom' => $prenom,
             'email' => $email,
             'telephone' => $telephone,
             'site' => $site,
-            'pseudo' => $pseudo
+            'pseudo' => $pseudo,
+            'imageSrc' => $participant->getImage()
         ]);
     }
 
