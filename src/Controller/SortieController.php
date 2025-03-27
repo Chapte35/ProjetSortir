@@ -59,16 +59,48 @@ final class SortieController extends AbstractController
             'controller_name' => 'SortieController',
             'form' => $form
         ]);
-
-
-
     }
 
-    #[Route('/detail/{id}', name: 'detail')]
-    public function detail(int $id,SortieRepository $sortieRepository): Response
-    {
-        $sortie = $sortieRepository->find($id);
+    #[Route('/inscrire/{id}', name: 'inscrire')]
+    public function inscrire(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository, Sortie $sortie): Response{
 
+        $publier = $sortie -> isEstPublie();
+        $date = $sortie->getDateLimiteInscription();
+        $nbInsriptions = $sortie->getNbInscriptionsMax();
+
+
+        if (!$publier){
+            $this->addFlash("warning","La sortie n'est pas publiée !");
+        }
+        if (! $date > new \DateTime()){
+            $this->addFlash("warning","La sortie est cloturée !");
+        }
+        if (!$nbInsriptions > 0){
+            $this->addFlash("warning","Ya pu d'place !");
+        }
+
+
+        if($publier &&
+            $date > new \DateTime() &&
+            $nbInsriptions > 0){
+
+
+
+            $sortie->addParticipant($this->getUser());
+
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+        }
+
+
+        return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
+    }
+
+
+//Gestion des inscriptions
+    #[Route('/detail/{id}', name: 'detail')]
+    public function detail(SortieRepository $sortieRepository, Request $request, EntityManagerInterface $entityManager,Sortie $sortie): Response
+    {
 
         return $this->render('sortie/detail.html.twig', [
                 'sortie' => $sortie,
@@ -132,6 +164,7 @@ final class SortieController extends AbstractController
             'form' => $form
         ]);
     }
+
 
 
 }
