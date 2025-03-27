@@ -54,7 +54,8 @@ class UserController extends AbstractController
             'email' => $email,
             'telephone' => $telephone,
             'site' => $site,
-            'pseudo' => $pseudo
+            'pseudo' => $pseudo,
+            'imageSrc' => $user->getImage()
         ]);
     }
 
