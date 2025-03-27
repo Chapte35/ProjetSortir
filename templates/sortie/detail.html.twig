@@ -2,55 +2,40 @@
 
 {% block body %}
     <h1> Details de sortie : {{ sortie.nom }}</h1>
-    <div class="mt-5 ">
-                <div>
-                    <p>Date de Sortie: {{ sortie.dateHeureDebut | date('d/m/Y H:i:s')  }}</p>
-                    <p>Clôture : {{ sortie.dateLimiteInscription | date('d/m/Y H:i:s')  }}</p>
+    <div class="d-flex justify-content-center mt-10">
+        <div class="col-12 col-md-8 col-lg-6 border border-black p-3 rounded-5 shadow p-3 mb-5 bg-body-tertiary rounded d-flex justify-content-between">
 
-                    <p>participants : {{ sortie.participants | length }}/{{ sortie.nbInscriptionsMax }}</p><button id="showToastBtn" class="btn btn-primary mt-1 mb-1">List des participants</button>
-                    <p class="card-text">{{ sortie.Etat.libelle}}</p>
-                    <p class="card-text">Organisateur : {{ sortie.organisateur.nom}} {{ sortie.organisateur.prenom}}</p>
-                    {% if app.user in sortie.participants  %}
-                        <p class="alert alert-primary w-50" role="alert">Vous étes inscrit a cette sortie</p>
+            <div>
+                <p>Date de Sortie: {{ sortie.dateHeureDebut | date('d/m/Y H:i:s') }}</p>
+                <p>Clôture : {{ sortie.dateLimiteInscription | date('d/m/Y H:i:s') }}</p>
 
-                        {% else %}
-                        <button type="button" class="btn btn-info">S'inscrire</button>
-                    {% endif %}
+                <p>participants : {{ sortie.participants | length }}/{{ sortie.nbInscriptionsMax }}</p>
+                <p class="card-text">{{ sortie.Etat.libelle }}</p>
+                <p class="card-text">Organisateur : {{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom }}</p>
+                {% if app.user in sortie.participants %}
+                    <p class="alert alert-primary w-50" role="alert">Vous étes inscrit a cette sortie</p>
 
-
-                </div>
-                </div>
-
-
-
-    <div class="position-fixed" style="top: 30%; left: 19%; transform: translate(-50%, -50%); z-index: 1050;">
-        <div class="toast" id="myToast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-               <img src="{{ asset('imgs/participant.png') }}" class="rounded me-2" alt="...">
-                <strong class="me-auto">Participants</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                {% else %}
+                    {% if date() < sortie.dateLimiteInscription %}
+                    <button type="button" class="btn btn-info">S'inscrire</button>
+                    {% endif%}
+                {% endif %}
             </div>
-            <div class="toast-body">
+            {% if app.user %}
+            <div class="border border-dark rounded-4 w-25">
+                <strong><p class="p-3">List des Participants:</p></strong>
                 {% for participant in sortie.participants %}
-                <p class="d-inline" >{{ participant.prenom }} {{ participant.nom }}</p> <a href="{{ path('app_profil_participant', {'id': participant.id}) }}">consulter le profile de {{ participant.prenom }}</a>
+                    <a class="ps-3"
+                       href="{{ path('app_profil_participant', {'id': participant.id}) }}">{{ participant.prenom }} {{ participant.nom }}</a>
                 {% endfor %}
+            {% endif%}
+
             </div>
+
+
+
+
         </div>
     </div>
-
-
-
-
-    <script>
-
-        let toastEl = document.getElementById('myToast');
-        let toast = new bootstrap.Toast(toastEl);
-        document.getElementById('showToastBtn').addEventListener('click', function () {
-            toast.show();
-        });
-    </script>
-
-
-
 
 {% endblock %}
