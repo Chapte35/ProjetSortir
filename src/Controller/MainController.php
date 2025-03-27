@@ -18,16 +18,6 @@ final class MainController extends AbstractController
     ): Response
     {
         $sorties = $sortieRepository->findBy(['estPublie' => 1]);
-
-//        foreach ($sorties as $sortie) {
-//            echo "Sortie: " . $sortie->getNom() . "<br>";
-//            echo "Participants: <br>";
-//            foreach ($sortie->getParticipants() as $participant) {
-//                echo "- " . $participant->getNom() . "<br>";
-//            }
-//        }
-
-
         return $this->render('main/index.html.twig',[
             'sorties' => $sorties,
         ]);
