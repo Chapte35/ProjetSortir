@@ -61,8 +61,21 @@ final class UserCrudController extends AbstractController
         //Verifier si formulaire soumis et valide
         if ($participantForm->isSubmitted() && $participantForm->isValid()) {
 
+
+            if ($participantForm->get('image')->getData()){
+                //      Pour l'upload de photo
+                $photo = $participantForm->get('image')->getData();
+
+                $filename = 'img/photoProfil/'. $uploader->save($photo, $user->getPseudo(), $this->getParameter('photo_profil_dir'));
+
+                $user->setImage($filename);
+            }
+
             $entityManager->persist($user);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Changement effectuer');
+
 
             return $this->redirectToRoute('app_user_crud_edit');
         }
@@ -71,24 +84,6 @@ final class UserCrudController extends AbstractController
         ]);
     }
 
-
-//      Pour l'upload de photo
-//            $photo = $participantForm->get('image')->getData();
-//            $participantForm->setImage();
-//            $uploader->save($photo, $participantForm->getName(), $this->getParameter('photo_profil_dir')
-//            );
-//
-//            $entityManager->persist($photo);
-//            $entityManager->flush();
-//
-//            $this->addFlash('success', 'Changement effectuer');
-//
-//        } return $this->render('user_crud/edit.html.twig', [
-//        'controller_name' => 'UserCrudController',
-//        $this->render('user_crud/edit.html.twig'),
-//        'participantForm' => $participantForm->createView(),
-//    ]);
-//        }
 
     #[Route('/user/crud/delete', name: 'app_user_crud_delete')]
     public function delete(): Response
