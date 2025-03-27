@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ParticipantRepository;
 use App\Services\Uploader;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Client\Curl\User;
@@ -56,6 +57,32 @@ class UserController extends AbstractController
             'site' => $site,
             'pseudo' => $pseudo,
             'imageSrc' => $user->getImage()
+        ]);
+    }
+
+
+    #[Route(path: '/Profil/{id}', name: 'app_profil_participant')]
+    public function ProfilParticipant(
+        int $id,
+        ParticipantRepository $participantRepository,
+    ): Response{
+
+        $participant = $participantRepository->find($id);
+        $pseudo = $participant->getPseudo();
+        $nom = $participant->getNom();
+        $prenom = $participant->getPrenom();
+        $email = $participant->getEmail();
+        $telephone = $participant->getTelephone();
+        $site = $participant->getSite()->getNom();
+
+
+        return $this->render('user/Profil.html.twig',[
+            'nom' => $nom,
+            'prenom' => $prenom,
+            'email' => $email,
+            'telephone' => $telephone,
+            'site' => $site,
+            'pseudo' => $pseudo
         ]);
     }
 
