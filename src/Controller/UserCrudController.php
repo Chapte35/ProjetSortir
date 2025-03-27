@@ -91,7 +91,30 @@ final class UserCrudController extends AbstractController
 //    ]);
 //        }
 
-
+//    #[Route('/user/crud/delete', name: 'app_user_delete', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+//    public function delete(
+//        ParticipantRepository $participantRepository,
+//        EntityManagerInterface $entityManager,
+//        Security $security,
+//    ): Response
+// {
+//     $user = $this->getUser();
+//     $id = $user->getId();
+//     $profil=$participantRepository->find($id);
+//     $security->logout();
+//
+//     $entityManager->remove($profil);
+//     $entityManager->flush();
+//
+//
+//
+//
+//
+//     $this->addFlash("success","Utilisateur supprimé !");
+//
+//        return $this->redirectToRoute('app_main');
+//
+//    }
 }
 
 
