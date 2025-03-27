@@ -220,3 +220,6 @@ fabric.properties
 /.idea/symfony2.xml
 /.idea/commandlinetools/Symfony_3_25_25__12_12_PM.xml
 /migrations/Version20250325104615.php
+/migrations/Version20250325135255.php
+/migrations/Version20250326135415.php
+/.idea/jsLibraryMappings.xml
