@@ -62,59 +62,28 @@ final class UserCrudController extends AbstractController
         //Verifier si formulaire soumis et valide
         if ($participantForm->isSubmitted() && $participantForm->isValid()) {
 
+
+            if ($participantForm->get('image')->getData()){
+                //      Pour l'upload de photo
+                $photo = $participantForm->get('image')->getData();
+
+                $filename = 'img/photoProfil/'. $uploader->save($photo, $user->getPseudo(), $this->getParameter('photo_profil_dir'));
+
+                $user->setImage($filename);
+            }
+
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_profil');
+            $this->addFlash('success', 'Changement effectuer');
+
+
+            return $this->redirectToRoute('app_user_crud_edit');
         }
         return $this->render('edit.html.twig', [
             'participantForm' => $participantForm->createView(),
         ]);
     }
-
-
-//      Pour l'upload de photo
-//            $photo = $participantForm->get('image')->getData();
-//            $participantForm->setImage();
-//            $uploader->save($photo, $participantForm->getName(), $this->getParameter('photo_profil_dir')
-//            );
-//
-//            $entityManager->persist($photo);
-//            $entityManager->flush();
-//
-//            $this->addFlash('success', 'Changement effectuer');
-//
-//        } return $this->render('user_crud/edit.html.twig', [
-//        'controller_name' => 'UserCrudController',
-//        $this->render('user_crud/edit.html.twig'),
-//        'participantForm' => $participantForm->createView(),
-//    ]);
-//        }
-
-//    #[Route('/user/crud/delete', name: 'app_user_delete', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
-//    public function delete(
-//        ParticipantRepository $participantRepository,
-//        EntityManagerInterface $entityManager,
-//        Security $security,
-//    ): Response
-// {
-//     $user = $this->getUser();
-//     $id = $user->getId();
-//     $profil=$participantRepository->find($id);
-//     $security->logout();
-//
-//     $entityManager->remove($profil);
-//     $entityManager->flush();
-//
-//
-//
-//
-//
-//     $this->addFlash("success","Utilisateur supprimé !");
-//
-//        return $this->redirectToRoute('app_main');
-//
-//    }
 }
 
 
