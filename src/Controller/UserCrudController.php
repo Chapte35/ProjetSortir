@@ -9,6 +9,7 @@ use App\Services\Uploader;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -90,20 +91,7 @@ final class UserCrudController extends AbstractController
 //    ]);
 //        }
 
-    #[Route('/user/crud/delete', name: 'app_user_delete', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
-    public function delete(
-        ParticipantRepository  $participantRepository,
-        EntityManagerInterface $entityManager
-    ): Response
- {
-     $entityManager->remove($participantRepository);
-     $entityManager->flush();
 
-        $this->addFlash("success","Utilisateur supprimé !");
-
-        return $this->redirectToRoute('app_main');
-
-    }
 }
 
 
