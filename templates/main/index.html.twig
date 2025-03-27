@@ -5,6 +5,46 @@
 {% block body %}
 
     <h1>Bienvenue sur la page d'accueil</h1>
+<div class="p-5">
+    <div class="row">
+
+    {% for sortie in sorties %}
+
+        <div class="col-sm-6 ">
+            <div class="card mb-5">
+                <div class="card-body h-300px ">
+                    <h5 class="card-title text-center">{{ sortie.nom }}</h5>
+                    <p class="card-text">Date de Sortie: {{ sortie.dateHeureDebut | date('d/m/Y H:i:s')  }}</p>
+                    <p class="card-text">Clôture : {{ sortie.dateLimiteInscription | date('d/m/Y H:i:s')  }}</p>
+                    {% if app.user in sortie.participants  %}
+                        <p class="alert alert-primary w-50" role="alert">Vous étes inscrit a cette sortie</p>
+{#                        {% else %}#}
+{#                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}" class="btn btn-primary">S'inscrire</a>#}
+                    {% endif %}
+                    <p class="card-text">Organisateur : {{ sortie.organisateur.nom}}</p>
+                    <a href="{{ path('sortie_detail', {'id': sortie.id}) }}" class="btn btn-outline-info">Afficher</a>
+
+                    {% if app.user == sortie.organisateur %}
+                        <a href="{{ path('sortie_detail', {'id': sortie.id}) }}" class="btn btn-outline-info">Publier</a>
+                        <a href="{{ path('sortie_detail', {'id': sortie.id}) }}" class="btn btn-outline-info">Modifier</a>
+                    {% endif %}
+
+                    {% dump(sortie.organisateur) %}
+
+                </div>
+            </div>
+        </div>
+
+        {% dump(app.user) %}
+
+    {% endfor %}
+    </div>
+</div>
+
+
 
 
 {% endblock %}
+
+
+
