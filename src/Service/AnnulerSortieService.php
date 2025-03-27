@@ -4,6 +4,7 @@ namespace App\Service;
 use App\Entity\Participant;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 class AnnulerSortieService
@@ -27,14 +28,18 @@ class AnnulerSortieService
         // Récupérer la sortie
         $sortie = $this->sortieRepository->find($sortieId);
 
-        if (!$sortie) {
-            throw new \Exception("Sortie non trouvée");
-        }
-
-        // Ajoutez ici les logiques de vérification
-        if ($sortie->getOrganisateur() !== $organisateur) {
-            throw new \Exception("Vous n'avez pas la permission d'annuler cette sortie.");
-        }
+//        if (!$sortie) {
+//            throw new \Exception("Sortie non trouvée");
+//        }
+//
+//        // Ajoutez ici les logiques de vérification
+//        if ($sortie->getOrganisateur() !== $organisateur) {
+//            throw new \Exception("Vous n'avez pas la permission d'annuler cette sortie.");
+//        }
+//
+//        if (new DateTime() > $sortie->getDateHeureDebut()) {
+//            throw new \Exception("C'est trop tard pour annuller la sortie.");
+//        }
 
         // Mettre à jour la sortie
         $sortie->setInfosSortie("Sortie annulée : ". $justification);

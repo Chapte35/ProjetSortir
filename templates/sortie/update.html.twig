@@ -14,8 +14,9 @@
             <button type="submit" class="btn btn-success w-100 mb-3" name="action" value="publier">Publier la sortie</button>
         </div>
         {{ form_end(form) }}
-        {{ if not sortie.isEstPublie() }}
-        <button type="submit" class="btn btn-danger w-100 mb-3" name="action" value="Supprimer">Supprimer la sortie.</button>
+{#        {{ if not sortie.isEstPublie() }}#}
+{#        <button type="submit" class="btn btn-danger w-100 mb-3" name="action" value="Supprimer">Supprimer la sortie.</button>#}
+{#        {% endif %}#}
         {% if sortie.isEstPublie() %}
         <button type="button"
                 class="btn btn-danger mb-3 w-100"

@@ -1,5 +1,6 @@
 {# templates/justification_modal.html.twig #}
-<div class="modal fade" id="justificationModal" tabindex="-1" aria-labelledby="justificationModalLabel" aria-hidden="true">
+<div class="modal fade" id="justificationModal" tabindex="-1" aria-labelledby="justificationModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,6 +10,8 @@
             <form id="justificationForm" method="POST">
                 <input type="hidden" id="sortieId" name="sortieId">
                 <div class="modal-body">
+                    {{ form_errors(form) }}
+
                     {{ form_start(form) }}
                     {{ form_row(form.justification) }}
 
@@ -23,7 +26,7 @@
     </div>
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const justificationForm = document.getElementById('justificationForm');
         const justificationModal = document.getElementById('justificationModal');
         const sortieIdInput = document.getElementById('sortieId');
@@ -36,55 +39,55 @@
             // console.log("id : " + sortieId);
 
 
-        // Soumettre le formulaire d'annulation
-        justificationForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+            // Soumettre le formulaire d'annulation
+            justificationForm.addEventListener('submit', function (e) {
+                e.preventDefault();
 
-            const formData = new FormData(this);
+                const formData = new FormData(this);
 
-            // console.log('Envoi de la requête avec ID:', sortieId);
-            // console.log('URL de la requête:', `/sortie/submit-justification/${sortieId}`);
+                // console.log('Envoi de la requête avec ID:', sortieId);
+                // console.log('URL de la requête:', `/sortie/submit-justification/${sortieId}`);
 
-            fetch(`/sortie/submit-justification/${sortieId}`, {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => {
-                    // console.log('Statut de la réponse:', response.status);
-
-                    const contentType = response.headers.get('content-type');
-                    if (contentType && contentType.includes('application/json')) {
-                        return response.json();
-                    } else {
-                        return response.text().then(text => {
-                            console.error('Réponse non JSON:', text);
-                            throw new Error('La réponse du serveur n\'est pas au format JSON');
-                        });
-                    }
+                fetch(`/sortie/submit-justification/${sortieId}`, {
+                    method: 'POST',
+                    body: formData
                 })
-                .then(data => {
-                    // console.log('Données reçues:', data);
+                    .then(response => {
+                        // console.log('Statut de la réponse:', response.status);
 
-                    if (data.success) {
-                        // Fermer le modal
-                        const modalInstance = bootstrap.Modal.getInstance(justificationModal);
-                        modalInstance.hide();
+                        const contentType = response.headers.get('content-type');
+                        if (contentType && contentType.includes('application/json')) {
+                            return response.json();
+                        } else {
+                            return response.text().then(text => {
+                                console.error('Réponse non JSON:', text);
+                                throw new Error('La réponse du serveur n\'est pas au format JSON');
+                            });
+                        }
+                    })
+                    .then(data => {
+                        // console.log('Données reçues:', data);
 
-                        // Afficher un message de succès
-                        alert(data.message);
+                        if (data.success) {
+                            // Fermer le modal
+                            const modalInstance = bootstrap.Modal.getInstance(justificationModal);
+                            modalInstance.hide();
 
-                        // Optionnel : recharger la page ou mettre à jour l'UI
-                        location.reload();
-                    } else {
-                        // Gérer les erreurs de validation
-                        alert('Erreur : ' + (data.errors || 'Validation échouée'));
-                    }
-                })
-                .catch(error => {
-                    // console.error('Erreur complète:', error);
-                });
-            // console.log('ID de sortie récupéré:', sortieId);
-        });
+                            // Afficher un message de succès
+                            alert(data.message);
+
+                            // Optionnel : recharger la page ou mettre à jour l'UI
+                            location.reload();
+                        } else {
+                            // Gérer les erreurs de validation
+                            alert('Erreur : ' + (data.errors || 'Validation échouée'));
+                        }
+                    })
+                    .catch(error => {
+                        // console.error('Erreur complète:', error);
+                    });
+                // console.log('ID de sortie récupéré:', sortieId);
+            });
         });
     });
 </script>

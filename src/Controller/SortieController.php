@@ -9,6 +9,7 @@ use App\Repository\EtatRepository;
 use App\Repository\ParticipantRepository;
 use App\Service\AnnulerSortieService;
 use DateInterval;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -134,9 +135,24 @@ final class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $justification = $form->get('justification')->getData();
 
+            if ($this->getUser() !== $sortie->getOrganisateur()){
+                return $this->json([
+                    'success' => false,
+                    'errors' => "Seul l'organisateur peut annuler une sortie."
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
             // Traitement de l'annulation
-            if ($this->getUser()) {
+            if ($this->getUser()){
                 $annulerSortieService->annulerSortie($sortie->getId(),$justification,$this->getUser());
+            }
+
+            if (new DateTime() > $sortie->getDateHeureDebut()) {
+                $form->addError(new FormError("C'est trop tard pour annuller la sortie."));
+                return $this->json([
+                    'success' => false,
+                    'errors' => "C'est trop tard pour annuller la sortie."
+                ], Response::HTTP_BAD_REQUEST);
             }
 
             return $this->json([
