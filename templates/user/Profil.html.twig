@@ -24,7 +24,9 @@
                                     <h5>{{ pseudo }}</h5>
                                     <p>{{ nom }} {{ prenom }}</p>
                                     <i class="far fa-edit mb-5">
+                                        {% if app.user.email == email %}
                                                 <a type="button" class="btn btn-primary" href="{{ path('app_user_crud_edit') }}">Modifier</a>
+                                        {% endif %}
                                     </i>
                                 </div>
                                 <div class="col-md-8">

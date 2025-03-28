@@ -68,6 +68,7 @@ class UserController extends AbstractController
     ): Response{
 
         $participant = $participantRepository->find($id);
+        $id = $participant->getId();
         $pseudo = $participant->getPseudo();
         $nom = $participant->getNom();
         $prenom = $participant->getPrenom();
@@ -84,7 +85,8 @@ class UserController extends AbstractController
             'telephone' => $telephone,
             'site' => $site,
             'pseudo' => $pseudo,
-            'imageSrc' => $participant->getImage()
+            'imageSrc' => $participant->getImage(),
+            'id' => $id
         ]);
     }
 
