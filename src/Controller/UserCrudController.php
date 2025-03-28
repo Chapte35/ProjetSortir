@@ -84,6 +84,15 @@ final class UserCrudController extends AbstractController
             'participantForm' => $participantForm->createView(),
         ]);
     }
+
+
+    #[Route('/user/crud/delete', name: 'app_user_crud_delete')]
+    public function delete(): Response
+    {
+        return $this->render('user_crud/delete.html.twig', [
+            'controller_name' => 'UserCrudController',
+        ]);
+    }
 }
 
 
