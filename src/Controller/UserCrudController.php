@@ -9,6 +9,7 @@ use App\Services\Uploader;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -81,15 +82,6 @@ final class UserCrudController extends AbstractController
         }
         return $this->render('edit.html.twig', [
             'participantForm' => $participantForm->createView(),
-        ]);
-    }
-
-
-    #[Route('/user/crud/delete', name: 'app_user_crud_delete')]
-    public function delete(): Response
-    {
-        return $this->render('user_crud/delete.html.twig', [
-            'controller_name' => 'UserCrudController',
         ]);
     }
 }

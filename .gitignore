@@ -220,6 +220,5 @@ fabric.properties
 /.env
 /.idea/symfony2.xml
 /.idea/commandlinetools/Symfony_3_25_25__12_12_PM.xml
-/migrations/Version20250325104615.php
-/.idea/commandlinetools/Symfony_26_03_2025_14_42.xml
-/assets/img/photoProfil/user1-67e536b2d4bcb.jpg
+/migrations
+/assets/img/photoProfil
