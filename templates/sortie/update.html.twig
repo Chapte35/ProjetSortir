@@ -12,19 +12,20 @@
         <div>
             <button type="submit" class="btn btn-dark w-100 mb-3" name="action" value="enregistrer">Enregistrer</button>
             <button type="submit" class="btn btn-success w-100 mb-3" name="action" value="publier">Publier la sortie</button>
+            <button type="button"
+                    class="btn btn-danger mb-3 w-100"
+                    data-bs-toggle="modal"
+                    data-bs-target="#justificationModal"
+                    data-sortie-id="{{ sortieID }}">
+                Annuler la Sortie définitivement
+            </button>
         </div>
         {{ form_end(form) }}
 {#        {{ if not sortie.isEstPublie() }}#}
 {#        <button type="submit" class="btn btn-danger w-100 mb-3" name="action" value="Supprimer">Supprimer la sortie.</button>#}
 {#        {% endif %}#}
         {% if sortie.isEstPublie() %}
-        <button type="button"
-                class="btn btn-danger mb-3 w-100"
-                data-bs-toggle="modal"
-                data-bs-target="#justificationModal"
-                data-sortie-id="{{ sortieID }}">
-            Annuler la Sortie définitivement
-        </button>
+
         {% endif %}
         {# Inclure le modal #}
         {{ render(controller('App\\Controller\\SortieController::modalAction')) }}

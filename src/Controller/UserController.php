@@ -38,6 +38,10 @@ class UserController extends AbstractController
     #[Route(path: '/Profil', name: 'app_profil')]
     public function Profil(): Response{
 
+        if (!$this->getUser()){
+            return $this->redirectToRoute('app_login');
+        }
+
         $user = $this->getUser();
         $pseudo = $user->getPseudo();
         $nom = $user->getNom();

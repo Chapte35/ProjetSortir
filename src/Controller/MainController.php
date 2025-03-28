@@ -28,15 +28,18 @@ final class MainController extends AbstractController
 
         $filterBuilder = $em
             ->getRepository(Sortie::class)
-            ->createQueryBuilder('e');
+            ->createQueryBuilder('sortie');
 
         $filterBuilderUpdater->addFilterConditions($filterForm, $filterBuilder);
 
+
         if ($filterForm->isSubmitted()) {
-            dd($filterBuilder->getDql());
+            $sorties = $sortieRepository->rechercheSorties($filterBuilder,$filterForm->getData(), $this->getUser());;
+        }else{
+            $sorties = $sortieRepository->findAll();
         }
 
-        $sorties = $sortieRepository->findAll();
+
 
         return $this->render('main/index.html.twig',[
             'sorties' => $sorties,

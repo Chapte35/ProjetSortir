@@ -10,7 +10,9 @@
                 <p>Clôture : {{ sortie.dateLimiteInscription | date('d/m/Y H:i:s') }}</p>
 
                 <p>participants : {{ sortie.participants | length }}/{{ sortie.nbInscriptionsMax }}</p>
+                {% if sortie.Etat %}
                 <p class="card-text">{{ sortie.Etat.libelle }}</p>
+                {% endif %}
                 <p class="card-text">Organisateur : {{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom }}</p>
                 {% if app.user in sortie.participants %}
                     <p class="alert alert-primary w-50" role="alert">Vous étes inscrit a cette sortie</p>
