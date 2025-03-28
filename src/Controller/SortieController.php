@@ -72,7 +72,7 @@ final class SortieController extends AbstractController
         if (!$publier){
             $this->addFlash("warning","La sortie n'est pas publiée !");
         }
-        if (! $date > new \DateTime()){
+        if (!$date > new \DateTime()){
             $this->addFlash("warning","La sortie est cloturée !");
         }
         if (!$nbInsriptions > 0){
@@ -101,6 +101,8 @@ final class SortieController extends AbstractController
     #[Route('/detail/{id}', name: 'detail')]
     public function detail(SortieRepository $sortieRepository, Request $request, EntityManagerInterface $entityManager,Sortie $sortie): Response
     {
+
+
 
         return $this->render('sortie/detail.html.twig', [
                 'sortie' => $sortie,
@@ -164,6 +166,37 @@ final class SortieController extends AbstractController
             'form' => $form
         ]);
     }
+
+    #[Route('/desister/{id}', name: 'app_sortie_sedesister')]
+    public function seDesister(Sortie $sortie, Request $request, EntityManagerInterface $entityManager): Response
+    {
+
+        $date = $sortie->getDateHeureDebut()->sub(new DateInterval('PT1H'));
+        $now = new \DateTimeImmutable();
+//        dd([$date->getTimezone(),$now->getTimezone()]);
+
+
+
+
+        if($date < $now ){
+            $this->addFlash('warning', 'La Sortie a déjà commencé');
+            return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
+        }
+
+        if($date >$now){
+
+            $sortie->removeParticipant($this->getUser());
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
+    }
+
+
+
+
+
 
 
 
