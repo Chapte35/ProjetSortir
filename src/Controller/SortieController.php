@@ -7,6 +7,7 @@ use App\Form\JustificationFormType;
 use App\Form\SortiesType;
 use App\Repository\EtatRepository;
 use App\Repository\ParticipantRepository;
+use App\Repository\SortieRepository;
 use App\Service\AnnulerSortieService;
 use DateInterval;
 use DateTime;
@@ -64,6 +65,20 @@ final class SortieController extends AbstractController
             'form' => $form
         ]);
     }
+
+    #[Route('/detail/{id}', name: 'detail')]
+    public function detail(int $id,SortieRepository $sortieRepository): Response
+    {
+        $sortie = $sortieRepository->find($id);
+
+
+        return $this->render('sortie/detail.html.twig', [
+            'sortie' => $sortie,
+        ]);
+
+    }
+
+
 
     #[Route('/modifier/{id}', name: 'modifier')]
     public function update(Sortie $sortie, Request $request, EntityManagerInterface $entityManager, SessionInterface $session): Response

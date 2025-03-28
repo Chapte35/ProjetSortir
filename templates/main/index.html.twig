@@ -4,9 +4,18 @@
 
 {% block body %}
 
-    <h1>Bienvenue sur la page d'accueil</h1>
+<h1>Bienvenue sur la page d'accueil</h1>
+
 <div class="p-5">
     <div class="row">
+
+    <div class="card container m-3">
+        {{ form_errors(form) }}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-success">Filtrer</button>
+        {{ form_end(form) }}
+    </div>
 
     {% for sortie in sorties %}
 
@@ -29,13 +38,13 @@
                         <a href="{{ path('sortie_detail', {'id': sortie.id}) }}" class="btn btn-outline-info">Modifier</a>
                     {% endif %}
 
-                    {% dump(sortie.organisateur) %}
+{#                    {% dump(sortie.organisateur) %}#}
 
                 </div>
             </div>
         </div>
 
-        {% dump(app.user) %}
+{#        {% dump(app.user) %}#}
 
     {% endfor %}
     </div>
