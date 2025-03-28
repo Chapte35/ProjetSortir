@@ -3,28 +3,28 @@
 {% block title %} {{ parent() }} | Profil{% endblock %}
 
 {% block body %}
-    <h1>Mon profil</h1>
+    <h1 class="titre-profil">Bienvenue sur ton profil {{ pseudo }}</h1>
 
-    <div>
-            <div class="container py-5 h-100 zoom mt-10" >
+    <div class="profil">
+        <div class="container py-5 h-100 zoom mt-10" >
                 <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col col-lg-6 mb-4 mb-lg-0">
                         <div class="card mb-3 " style="border-radius: .5rem;">
                             <div class="row g-0">
-                                <div class="col-md-4 gradient-custom text-center text-white"
+                                <div class="col-md-4 gradient-custom  text-center text-white"
                                      style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
 
                                     {% if not imageSrc %}
                                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                                         alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                                         alt="Avatar" class="photo img-fluid my-4" style="width: 80px" />
                                     {% else %}
-                                        <img src="{{ asset(imageSrc) }}" alt="{{ pseudo }}" class="img-fluid my-5" style="width: 80px;" />
+                                        <img src="{{ asset(imageSrc) }}" alt="{{ pseudo }}" class="photo img-fluid my-4" style="width: 80px;" />
                                     {% endif %}
 
                                     <h5>{{ pseudo }}</h5>
                                     <p>{{ nom }} {{ prenom }}</p>
                                     <i class="far fa-edit mb-5">
-                                                <a type="button" class="btn btn-primary" href="{{ path('app_user_crud_edit') }}">Modifier</a>
+                                                <a type="button" class="btn btn-light" href="{{ path('app_user_crud_edit') }}">Modifier</a>
                                     </i>
                                 </div>
                                 <div class="col-md-8">
@@ -57,7 +57,6 @@
                 </div>
             </div>
     </div>
-
 
 {% endblock %}
 

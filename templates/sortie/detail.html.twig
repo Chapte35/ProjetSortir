@@ -7,40 +7,38 @@
             {{ message }}
         </div>
     {% endfor %}
-    <div class="d-flex justify-content-center mt-10">
-        <div class="col-12 col-md-8 col-lg-6 border border-black p-3 rounded-5 shadow p-3 mb-5 bg-body-tertiary rounded d-flex justify-content-between">
+    <div class="d-flex justify-content-center mt-10 ">
+            <div class="col-12 col-md-8 col-lg-6 border border-black p-3 rounded-5 shadow p-3 mb-5 bg-body-tertiary rounded d-flex justify-content-between">
 
-            <div>
-                <p>Date de Sortie: {{ sortie.dateHeureDebut | date('d/m/Y H:i:s') }}</p>
-                <p>Clôture : {{ sortie.dateLimiteInscription | date('d/m/Y H:i:s') }}</p>
+                <div>
+                    <p>Date de Sortie: {{ sortie.dateHeureDebut | date('d/m/Y H:i:s') }}</p>
+                    <p>Clôture : {{ sortie.dateLimiteInscription | date('d/m/Y H:i:s') }}</p>
 
-                <p>participants : {{ sortie.participants | length }}/{{ sortie.nbInscriptionsMax }}</p>
-                <p class="card-text">{{ sortie.Etat.libelle }}</p>
-                <p class="card-text">Organisateur : {{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom }}</p>
-                {% if app.user in sortie.participants %}
-                    <p class="alert alert-primary w-50" role="alert">Vous étes inscrit a cette sortie</p>
+                    <p>participants : {{ sortie.participants | length }}/{{ sortie.nbInscriptionsMax }}</p>
+                    <p class="card-text">{{ sortie.Etat.libelle }}</p>
+                    <p class="card-text">Organisateur
+                        : {{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom }}</p>
+                    {% if app.user in sortie.participants %}
+                        <p class="alert alert-primary w-50" role="alert">Vous étes inscrit a cette sortie</p>
 
-                {% else %}
-                    {% if date() < sortie.dateLimiteInscription %}
-                    <a type="button" href="{{ path('sortie_inscrire', {'id': sortie.id}) }}" class="btn btn-info">S'inscrire</a>
-                    {% endif%}
-                {% endif %}
+                    {% else %}
+                        {% if date() < sortie.dateLimiteInscription %}
+                            <a type="button" href="{{ path('sortie_inscrire', {'id': sortie.id}) }}"
+                               class="btn btn-info">S'inscrire</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                {% if app.user %}
+                <div class="border border-dark rounded-4 w-25">
+                    <strong><p class="p-3">List des Participants:</p></strong>
+                    {% for participant in sortie.participants %}
+                        <a class="ps-3"
+                           href="{{ path('app_profil_participant', {'id': participant.id}) }}">{{ participant.prenom }} {{ participant.nom }}</a>
+                    {% endfor %}
+                    {% endif %}
+
+                </div>
             </div>
-            {% if app.user %}
-            <div class="border border-dark rounded-4 w-25">
-                <strong><p class="p-3">List des Participants:</p></strong>
-                {% for participant in sortie.participants %}
-                    <a class="ps-3"
-                       href="{{ path('app_profil_participant', {'id': participant.id}) }}">{{ participant.prenom }} {{ participant.nom }}</a>
-                {% endfor %}
-            {% endif%}
-
-            </div>
-
-
-
-
-        </div>
     </div>
 
 {% endblock %}

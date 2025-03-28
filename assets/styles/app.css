@@ -1,26 +1,26 @@
 body {
-background-color: #B4EBE6;
+    background-color: #FFEEAD;
 
 }
 
-.mt-10{
-    margin-top: 10%;
+.mt-10 {
+    margin-top: 6%;
 }
 
-.sh-white{
-box-shadow: 0 4px 6px rgba(255, 255, 255, 0.7);
+.sh-white {
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.7);
 }
 
 
 .gradient-custom {
     /* fallback for old browsers */
-    background: #f6d365;
+    background: #96CEB4;
 
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+    /*!* Chrome 10-25, Safari 5.1-6 *!*/
+    /*background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));*/
 
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+    /*!* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/
+    /*background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))*/
 }
 
 .zoom {
@@ -28,6 +28,36 @@ box-shadow: 0 4px 6px rgba(255, 255, 255, 0.7);
     transform-origin: center; /* Keeps the zoom centered */
 }
 
-.h-300px{
+.h-300px {
     height: 300px;
+}
+
+.border {
+    border-width: 3px !important;
+}
+
+.titre-profil {
+    text-align: center;
+    margin-top: 25px;
+}
+
+
+.navbar-light {
+    background-color: #96CEB4;
+}
+
+.photo {
+    width: 100px; /* Définit la largeur de l'image */
+    height: 100px; /* Définit la hauteur de l'image pour qu'elle soit carrée */
+    border-radius: 50%; /* Arrondit les coins à 50%, ce qui donne une forme circulaire */
+    object-fit: cover; /* Permet à l'image de s'adapter sans déformation */
+}
+
+footer {
+
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    flex-shrink: 0;
+    margin-top: 75px;
 }
