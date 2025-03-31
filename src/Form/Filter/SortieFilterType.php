@@ -50,7 +50,7 @@ class SortieFilterType extends AbstractType
             ])
             ->add('participants', EntityFilterType::class,[
                 'class' => Participant::class,
-                'choice_label' => 'nom',
+                'choice_label' => 'pseudo',
                 'placeholder' => 'Participe à l\'évènement :',
                 'required' => false,
             ])

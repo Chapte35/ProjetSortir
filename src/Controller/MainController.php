@@ -41,7 +41,7 @@ final class MainController extends AbstractController
 
         if ($filterForm->isSubmitted()) {
             $sorties = $sortieRepository->rechercheSorties($filterBuilder,$filterForm->getData(), $this->getUser());
-            dd($sorties);
+//            dd($sorties);
             return $this->render('main/index.html.twig',[
                 'sorties' => $sorties,
                 'form' => $filterForm
