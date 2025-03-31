@@ -65,6 +65,10 @@ final class SortieController extends AbstractController
         ]);
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     #[Route('/modifier/{id}', name: 'modifier')]
     public function update(Sortie $sortie, Request $request, EntityManagerInterface $entityManager, SessionInterface $session): Response
     {

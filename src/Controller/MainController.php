@@ -17,6 +17,8 @@ final class MainController extends AbstractController
 
     ): Response
     {
+
+
         $sorties = $sortieRepository->findBy(['estPublie' => 1]);
         return $this->render('main/index.html.twig',[
             'sorties' => $sorties,
