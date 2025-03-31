@@ -49,7 +49,7 @@ body {
 
 
 .navbar-light {
-    background-color: #96CEB4;
+    background-color: #EDE6D6;
 
 }
 
@@ -176,9 +176,14 @@ footer {
 /*RESPONSIVE MOBILE*/
 /*______________________________________________*/
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 768px) {
     .mt-10 {
         margin-top: 20%;
+    }
+
+    .nav-item{
+
+        line-height: 80px;
     }
 
     /* Stack columns on mobile */
