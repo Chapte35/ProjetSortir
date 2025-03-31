@@ -5,24 +5,35 @@
                 aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="{{ path('app_main') }}">Navbar</a>
+{#        <nav class="navbar bg-body-tertiary">#}
+{#            <div class="container"><a class="navbar-brand" href="#"> <img#}
+{#                           src="{{ asset('assets/img/logo.png') }}" class="bias" alt="Bootstrap" width="40" height="40"> </a>#}
+{#            </div>#}
+{#        </nav>#}
+
+        <img src="{{ asset('assets/img/logo/logo.jpg') }}" alt="gg">
 
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#" title="Ville">Villes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sites</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#" title="Ville">Villes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Sites</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" tabindex="-1" aria-disabled="true" title="Sites">Accueil</a>
+                    <a class="nav-link" href="{{ path('app_main') }}" tabindex="-1" aria-disabled="true" title="Sites">Accueil</a>
                 </li>
 
                 {% if app.user %}
                     <li class="nav-item">
                         <a class="nav-link " aria-current="page" href="{{ path('app_profil') }}" title="Profil">Mon
                             profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link "  aria-current="page" href="{{ path('sortie_creer') }}" title="Sorties">Réaliser une sortie</a>
                     </li>
 
                     <li class="nav-item">
@@ -43,10 +54,6 @@
                     </li>
                 {% endif %}
             </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
         </div>
     </div>
 </nav>
