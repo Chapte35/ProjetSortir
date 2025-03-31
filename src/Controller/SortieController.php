@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Form\JustificationFormType;
 use App\Form\SortiesType;
 use App\Repository\EtatRepository;
+use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
+use App\Service\AnnulerSortieService;
 use DateInterval;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -14,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/sortie', name: 'sortie_')]
@@ -99,21 +104,25 @@ final class SortieController extends AbstractController
 
 //Gestion des inscriptions
     #[Route('/detail/{id}', name: 'detail')]
-    public function detail(SortieRepository $sortieRepository, Request $request, EntityManagerInterface $entityManager,Sortie $sortie): Response
+    public function detail(int $id,SortieRepository $sortieRepository): Response
     {
-
+        $sortie = $sortieRepository->find($id);
 
 
         return $this->render('sortie/detail.html.twig', [
-                'sortie' => $sortie,
+            'sortie' => $sortie,
         ]);
 
-}
+    }
 
 
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     #[Route('/modifier/{id}', name: 'modifier')]
-    public function update(Sortie $sortie, Request $request, EntityManagerInterface $entityManager): Response
+    public function update(Sortie $sortie, Request $request, EntityManagerInterface $entityManager, SessionInterface $session): Response
     {
         $form = $this->createForm(SortiesType::class, $sortie);
 
@@ -161,10 +170,57 @@ final class SortieController extends AbstractController
                 $form->addError(new FormError("Vous devez être connecté pour modifier cette sortie"));
             }
 
+
         return $this->render('sortie/update.html.twig', [
             'controller_name' => 'SortieController',
-            'form' => $form
+            'form' => $form,
+            'sortieID' => $sortie->getId(),
+            'sortie' => $sortie
         ]);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    #[Route('/submit-justification/{id}', name: 'submit_justification', methods: ['POST'])]
+    public function submitJustification(Sortie $sortie, Request $request, SessionInterface $session, AnnulerSortieService $annulerSortieService, ParticipantRepository $participantRepository): Response
+    {
+        $form = $this->createForm(JustificationFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $justification = $form->get('justification')->getData();
+
+            if ($this->getUser() !== $sortie->getOrganisateur()){
+                return $this->json([
+                    'success' => false,
+                    'errors' => "Seul l'organisateur peut annuler une sortie."
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
+            // Traitement de l'annulation
+            if ($this->getUser()){
+                $annulerSortieService->annulerSortie($sortie->getId(),$justification,$this->getUser());
+            }
+
+            if (new DateTime() > $sortie->getDateHeureDebut()) {
+                $form->addError(new FormError("C'est trop tard pour annuller la sortie."));
+                return $this->json([
+                    'success' => false,
+                    'errors' => "C'est trop tard pour annuller la sortie."
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
+            return $this->json([
+                'success' => true,
+                'message' => 'Justification enregistrée avec succès'
+            ]);
+        }
+
+        return $this->json([
+            'success' => false,
+            'errors' => $form->getErrors(true)
+        ], Response::HTTP_BAD_REQUEST);
     }
 
     #[Route('/desister/{id}', name: 'app_sortie_sedesister')]
@@ -194,10 +250,30 @@ final class SortieController extends AbstractController
     }
 
 
+    #[Route('/supprimer/{id}', name: 'supprimer')]
+    public function supprimer(Sortie $sortie, EntityManagerInterface $entityManager): Response{
+
+        if ($this->getUser() === $sortie->getOrganisateur()){
+            $entityManager->remove($sortie);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_main');
+        }
+
+
+        return $this->redirectToRoute('app_main');
+
+    }
 
 
 
 
+    public function modalAction(): Response
+    {
+        $form = $this->createForm(JustificationFormType::class);
 
+        return $this->render('sortie/annulerModal.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
 
 }
