@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+
+{% block body %}
+    <div class="d-flex justify-content-center mt-10">
+        <div class="w-500px border border-black p-3 rounded-5 shadow p-3 mb-5 bg-body-tertiary rounded">
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-dark">Submit</button>
+    {{ form_end(form) }}
+    </div></div>
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
