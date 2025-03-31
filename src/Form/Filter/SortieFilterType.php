@@ -33,6 +33,7 @@ class SortieFilterType extends AbstractType
                 'required' => false,
             ])
             ->add('dateHeureDebut', DateTimeRangeFilterType::class,[
+                'label' => 'Date comprise',
                 'left_datetime_options' => [
                     'with_minutes' => false,
                     'label' => 'A partir de',
