@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un groupe{% endblock %}
+
+{% block body %}
+
+    <div class=" container card card-body mt-3">
+        {{ form_errors(form) }}
+        {{ form_start(form) }}
+        {{ form_row(form.nom) }}
+        {{ form_row(form.membres) }}
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
+

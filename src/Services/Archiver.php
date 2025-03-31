@@ -33,7 +33,11 @@ class Archiver
         foreach ($sorties as $sortie) {
             $dateDebut = $sortie->getDateHeureDebut();
             $currentDate = new DateTime();
-            $interval = $dateDebut->diff($currentDate);
+            if ($dateDebut){
+                $interval = $dateDebut->diff($currentDate);
+            }else{
+                return;
+            }
 
 
             if ($interval->days >= 30) {
