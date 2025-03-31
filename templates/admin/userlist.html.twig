@@ -25,9 +25,9 @@
             <td>{{ user.email }}</td>
             <td>
                     {% if user.actif %}
-                <a type="button" class="btn btn-warning" href="{{ path('admin_app_admin_desactiver', {'id': user.id}) }}">Disable</a>
+                <a type="button" class="btn btn-warning" href="{{ path('admin_app_admin_desactiver', {'id': user.id}) }}">Désactiver</a>
                     {% endif %}
-                <a type="button" class="btn btn-danger" href="{{ path('admin_app_admin_supprimer', {'id': user.id}) }}">Delete</a>
+                <a type="button" class="btn btn-danger" href="{{ path('admin_app_admin_supprimer', {'id': user.id}) }}">Supprimer</a>
 
             </td>
         </tr>

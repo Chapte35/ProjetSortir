@@ -8,7 +8,7 @@
                         <p class="card-text">Date de Sortie: {{ sortie.dateHeureDebut | date('d/m/Y H:i:s') }}</p>
                         <p class="card-text">Clôture : {{ sortie.dateLimiteInscription | date('d/m/Y H:i:s') }}</p>
                         {% if app.user in sortie.participants %}
-                            <p class="alert alert-primary w-50" role="alert">Vous étes inscrit a cette sortie</p>
+                            <p class="alert alert-primary w-50" role="alert">Vous êtes inscrit a cette sortie</p>
                             {#                        {% else %} #}
                             {#                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}" class="btn btn-primary">S'inscrire</a> #}
                         {% endif %}
