@@ -4,7 +4,7 @@ body {
 }
 
 .mt-10 {
-    margin-top: 6%;
+    margin-top: 10%;
 }
 
 .sh-white {
@@ -40,19 +40,17 @@ body {
 .titre-profil {
     text-align: center;
     margin-top: 25px;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
 }
 
-@media screen {
+.btn-light{
+    font-family: Arial, sans-serif;
+}
 
 
 .navbar-light {
     background-color: #96CEB4;
-    width: 100%;
-    position: fixed;}
 
-    .profil{
-        justify-content: center;
-    }
 }
 
 .photo {
@@ -73,13 +71,71 @@ footer {
 
 .w-500px{
     width: 500px;
+    height: auto;
 }
 
+@media screen and (max-width: 768px) {
+    .zoom {
+        transform: scale(1); /* No zoom on smaller screens */
+    }
+
+    .mt-10 {
+        margin-top: 10%;
+    }
+
+    .photo {
+        width: 60px; /* Smaller photo on mobile */
+        height: 60px;
+    }
+}
+
+/*______________________________________________*/
+/*LOGIN*/
+/*______________________________________________*/
+.responsive-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 6%;
+}
+.responsive-box {
+    width: 25%; /* Largeur initiale pour desktop */
+    border: 1px solid black;
+    padding: 1rem;
+    border-radius: 1.5rem; /* Équivalent à rounded-5 */
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15); /* Équivalent à shadow */
+    background-color: var(--bs-tertiary-bg); /* Équivalent à bg-body-tertiary */
+    margin-bottom: 3rem; /* Équivalent à mb-5 */
+    transition: all 0.3s ease; /* Transition douce pour les changements */
+.btnLog {
+    background-color: #96CEB4;
+    border-radius: 5px;
+    border-color: transparent;
+    padding: 8px 15px; /* Padding standard pour desktop */
+    font-size: 1rem; /* Taille de police en unité relative */
+    transition: all 0.3s ease; /* Transition douce pour les changements */
+    width: auto; /* Largeur auto par défaut */
+    display: inline-block; /* Comportement d'affichage standard */
+    text-align: center; /* Centrage du texte */
+    margin: 5px; /* Marge standard */
+}
+
+.btnpsw {
+    background-color: #96CEB4;
+    border-radius: 10px;
+    border-color: transparent;
+    width: auto;
+    padding: 8px 15px; /* Padding similaire pour cohérence */
+    font-size: 1rem; /* Taille de police en unité relative */
+    transition: all 0.3s ease; /* Transition douce pour les changements */
+    display: inline-block; /* Comportement d'affichage standard */
+    text-align: center; /* Centrage du texte */
+    margin: 5px; /* Marge standard */
+}
 /*______________________________________________*/
 /*RESPONSIVE TABLETTE*/
 /*______________________________________________*/
 
-@media screen and (max-width: 970px) {
+@media screen and (max-width: 1100px) {
     .w-500px{
         width: 100%;
     }
@@ -87,8 +143,30 @@ footer {
         width: 100%;
     }
     .mt-10 {
-        margin-top: 15%;
+        margin-top: 12%;
     }
+    .col-md-4.gradient-custom {
+        border-top-left-radius: .5rem;
+        border-top-right-radius: .5rem;
+        border-bottom-left-radius: 0;
+        padding: 20px 0;
+    }
+    .btnLog, .btnpsw {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 7px 12px;
+        font-size: 0.95rem;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .responsive-box{
+        width: 50%;}
+}
+
 
 }
 
@@ -99,11 +177,63 @@ footer {
 /*______________________________________________*/
 
 @media screen and (max-width: 500px) {
-    .w-500px{
+    .mt-10 {
+        margin-top: 20%;
+    }
+
+    /* Stack columns on mobile */
+    .row.pt-1 .col-6 {
         width: 100%;
     }
-}
 
+    .card-body {
+        padding: 10px;
+    }
+
+    /* Adjust text size on mobile */
+    h5, h6 {
+        font-size: 1rem;
+    }
+
+    p {
+        font-size: 0.9rem;
+    }
+        .photo {
+            width: 200px;
+            height: 60px;
+            margin: 10px auto;
+            display: block;
+        }
+    .btnLog, .btnpsw {
+        padding: 6px 10px; /* Padding plus compact */
+        font-size: 0.9rem; /* Police plus petite */
+        width: 100%; /* Largeur complète sur mobile */
+        max-width: 250px; /* Largeur maximale pour éviter les boutons trop larges */
+        margin: 5px auto; /* Centrage horizontal */
+        display: block; /* Passer en mode bloc pour un meilleur contrôle */
+    }
+
+    .button-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    .responsive-box {
+
+        width: 90%;
+        padding: 0.75rem;
+        border-radius: 1rem;
+    }
+
+    .responsive-container {
+        margin-top: 15%;
+    }
+
+
+
+
+}
 
 
 
