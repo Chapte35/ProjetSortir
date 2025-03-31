@@ -38,23 +38,21 @@ final class MainController extends AbstractController
 
         $filterBuilderUpdater->addFilterConditions($filterForm, $filterBuilder);
 
+        $sorties = [];
 
         if ($filterForm->isSubmitted()) {
             $sorties = $sortieRepository->rechercheSorties($filterBuilder,$filterForm->getData(), $this->getUser());
-//            dd($sorties);
-            return $this->render('main/index.html.twig',[
-                'sorties' => $sorties,
-                'form' => $filterForm
-            ]);
         }else{
             $sorties = $sortieRepository->findAll();
         }
 
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('main/_sorties_list.html.twig', [
+                'sorties' => $sorties
+            ]);
+        }
 
 
-
-
-        $sorties = $sortieRepository->findBy(['estPublie' => 1]);
         return $this->render('main/index.html.twig',[
             'sorties' => $sorties,
             'form' => $filterForm
