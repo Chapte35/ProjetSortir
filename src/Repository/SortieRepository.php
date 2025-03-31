@@ -40,4 +40,36 @@ class SortieRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function rechercheSorties($qb, $filters, $user)
+    {
+
+
+        if (!empty($filters['inscrit'])) {
+            $qb->andWhere(':user MEMBER OF sortie.Participants')
+                ->setParameter('user', $user);
+        }
+
+        // Sorties auxquelles l'utilisateur n'est pas inscrit
+        if (!empty($filters['nonInscrit'])) {
+            $qb->andWhere(':user NOT MEMBER OF sortie.Participants')
+                ->setParameter('user', $user);
+        }
+
+        // Sorties passées (jusqu'à un mois après la date de début)
+        if (!empty($filters['sortiesPassees'])) {
+            $oneMonthAgo = new \DateTime();
+            $oneMonthAgo->sub(new \DateInterval('P1M'));
+
+            $qb->andWhere('sortie.dateHeureDebut BETWEEN :oneMonthAgo AND :now')
+                ->setParameter('oneMonthAgo', $oneMonthAgo)
+                ->setParameter('now', new \DateTime());
+        }
+
+
+        return $qb->orderBy('sortie.dateHeureDebut', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 }
