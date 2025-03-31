@@ -250,7 +250,19 @@ final class SortieController extends AbstractController
     }
 
 
+    #[Route('/supprimer/{id}', name: 'supprimer')]
+    public function supprimer(Sortie $sortie, EntityManagerInterface $entityManager): Response{
 
+        if ($this->getUser() === $sortie->getOrganisateur()){
+            $entityManager->remove($sortie);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_main');
+        }
+
+
+        return $this->redirectToRoute('app_main');
+
+    }
 
 
 
