@@ -72,6 +72,7 @@ class UserController extends AbstractController
     ): Response{
 
         $participant = $participantRepository->find($id);
+        $id = $participant->getId();
         $pseudo = $participant->getPseudo();
         $nom = $participant->getNom();
         $prenom = $participant->getPrenom();
@@ -80,13 +81,16 @@ class UserController extends AbstractController
         $site = $participant->getSite()->getNom();
 
 
+
         return $this->render('user/Profil.html.twig',[
             'nom' => $nom,
             'prenom' => $prenom,
             'email' => $email,
             'telephone' => $telephone,
             'site' => $site,
-            'pseudo' => $pseudo
+            'pseudo' => $pseudo,
+            'imageSrc' => $participant->getImage(),
+            'id' => $id
         ]);
     }
 

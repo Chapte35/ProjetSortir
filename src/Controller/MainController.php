@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Sortie;
 use App\Form\Filter\SortieFilterType;
 use App\Repository\SortieRepository;
+use App\Services\Archiver;
 use Doctrine\ORM\EntityManagerInterface;
 use Spiriit\Bundle\FormFilterBundle\Filter\FilterBuilderUpdater;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,11 +18,16 @@ final class MainController extends AbstractController
     #[Route('/', name: 'app_main')]
     public function index(
         SortieRepository $sortieRepository,
+        Archiver $archiver,
+
         Request $request,
         FilterBuilderUpdater $filterBuilderUpdater,
         EntityManagerInterface $em
     ): Response
     {
+        $sorties = $sortieRepository->findBy(['etat' => 1]);
+        $archiver->archiver($sorties);
+
         $filterForm = $this->createForm(SortieFilterType::class);
 
         $filterForm->handleRequest($request);

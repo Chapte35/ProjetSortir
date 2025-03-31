@@ -66,6 +66,43 @@ final class SortieController extends AbstractController
         ]);
     }
 
+    #[Route('/inscrire/{id}', name: 'inscrire')]
+    public function inscrire(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository, Sortie $sortie): Response{
+
+        $publier = $sortie -> isEstPublie();
+        $date = $sortie->getDateLimiteInscription();
+        $nbInsriptions = $sortie->getNbInscriptionsMax();
+
+
+        if (!$publier){
+            $this->addFlash("warning","La sortie n'est pas publiée !");
+        }
+        if (!$date > new \DateTime()){
+            $this->addFlash("warning","La sortie est cloturée !");
+        }
+        if (!$nbInsriptions > 0){
+            $this->addFlash("warning","Ya pu d'place !");
+        }
+
+
+        if($publier &&
+            $date > new \DateTime() &&
+            $nbInsriptions > 0){
+
+
+
+            $sortie->addParticipant($this->getUser());
+
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+        }
+
+
+        return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
+    }
+
+
+//Gestion des inscriptions
     #[Route('/detail/{id}', name: 'detail')]
     public function detail(int $id,SortieRepository $sortieRepository): Response
     {
@@ -185,6 +222,38 @@ final class SortieController extends AbstractController
             'errors' => $form->getErrors(true)
         ], Response::HTTP_BAD_REQUEST);
     }
+
+    #[Route('/desister/{id}', name: 'app_sortie_sedesister')]
+    public function seDesister(Sortie $sortie, Request $request, EntityManagerInterface $entityManager): Response
+    {
+
+        $date = $sortie->getDateHeureDebut()->sub(new DateInterval('PT1H'));
+        $now = new \DateTimeImmutable();
+//        dd([$date->getTimezone(),$now->getTimezone()]);
+
+
+
+
+        if($date < $now ){
+            $this->addFlash('warning', 'La Sortie a déjà commencé');
+            return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
+        }
+
+        if($date >$now){
+
+            $sortie->removeParticipant($this->getUser());
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
+    }
+
+
+
+
+
+
 
     public function modalAction(): Response
     {
