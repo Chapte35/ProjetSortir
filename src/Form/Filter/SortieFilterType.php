@@ -2,6 +2,7 @@
 
 namespace App\Form\Filter;
 
+use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Site;
 use App\Entity\Sortie;
@@ -54,6 +55,13 @@ class SortieFilterType extends AbstractType
                 'choice_label' => 'pseudo',
                 'placeholder' => 'Participe à l\'évènement :',
                 'required' => false,
+            ])
+            ->add('etat', EntityFilterType::class,[
+                'class' => Etat::class,
+                'choice_label' => 'libelle',
+                'placeholder' => 'Etat :',
+                'required' => false,
+
             ])
 //            ->add('inscrit', CheckboxType::class, [
 //                'label' => 'Sorties auxquelles je suis inscrit',

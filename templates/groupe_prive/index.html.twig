@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello GroupePriveController!{% endblock %}
+{% block title %}Groupes{% endblock %}
 
 {% block body %}
 <style>
@@ -12,10 +12,19 @@
     {% if app.user %}
         <h1>Hello {{ app.user.pseudo }}! ✅</h1>
     {% endif %}
-    Want to create new groups of friends ? help yourself :
-    <ul>
-        <li>Your controller at <code>D:/wamp64/www/ProjetSortir/src/Controller/GroupePriveController.php</code></li>
-        <li>Your template at <code>D:/wamp64/www/ProjetSortir/templates/groupe_prive/index.html.twig</code></li>
-    </ul>
+
+    <div class="card">
+        <div class="card-body align-items-center">
+            <h2 class="text-center m-3">Bienvenue sur votre espace Groupe Prive </h2>
+            <p class="text-center m-3">Cet espace vous permet de créer un groupe nommé que vous pourrez préinscrire a une sortie dite privée.</p>
+            <p class="text-center m-3">Si vous avez deja un groupe privé, vous pouvez le trouver sur la page </p>
+            <a href="{{ path('groupe_liste') }}" class="btn btn-outline-info w-100">Liste de vos Groupes</a>
+            <p class="text-center m-3">Si vous n'avez pas de groupes privés vous pouvez en créer ici :</p>
+            <a href="{{ path('groupe_creer') }}" class="btn btn-outline-success w-100">Créer un Groupe</a>
+
+        </div>
+    </div>
+
+
 </div>
 {% endblock %}
