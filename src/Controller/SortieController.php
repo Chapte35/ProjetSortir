@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\JustificationFormType;
 use App\Form\SortiesType;
 use App\Repository\EtatRepository;
+use App\Repository\GroupePriveRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use App\Service\AnnulerSortieService;
@@ -30,10 +32,12 @@ final class SortieController extends AbstractController
      * @throws NotFoundExceptionInterface
      */
     #[Route('/creer', name: 'creer')]
-    public function creer(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
+    public function creer(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository, GroupePriveRepository $groupePriveRepository): Response
     {
         $sortie = new Sortie();
         $form = $this->createForm(SortiesType::class, $sortie);
+
+
 
         $form->handleRequest($request);
 
@@ -43,6 +47,14 @@ final class SortieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()  && $this->container->get('security.authorization_checker')->isGranted('ROLE_USER')){
 
+
+            if ($form->get('groupe')->getData() && $_POST['action'] == 'publier') {
+                $groupeVide = ($form->get('groupe')->getData());
+                $groupe = $groupePriveRepository->find($groupeVide->getId());
+                foreach ($groupe->getMembres() as $participant) {
+                    $sortie->addParticipant($participant);
+                }
+            }
 
             $sortie->setDuree(DateInterval::createFromDateString($form->get('dureeMinutes')->getData()." min"));
             $sortie ->setOrganisateur($this->getUser());
@@ -122,7 +134,7 @@ final class SortieController extends AbstractController
      * @throws NotFoundExceptionInterface
      */
     #[Route('/modifier/{id}', name: 'modifier')]
-    public function update(Sortie $sortie, Request $request, EntityManagerInterface $entityManager, SessionInterface $session): Response
+    public function update(Sortie $sortie, Request $request, EntityManagerInterface $entityManager, SessionInterface $session, GroupePriveRepository $groupePriveRepository): Response
     {
         $form = $this->createForm(SortiesType::class, $sortie);
 
@@ -152,6 +164,13 @@ final class SortieController extends AbstractController
                 !$sortie->isEstPublie())
             {
 
+                if ($form->get('groupe')->getData() && $_POST['action'] == 'publier') {
+                    $groupeVide = ($form->get('groupe')->getData());
+                    $groupe = $groupePriveRepository->find($groupeVide->getId());
+                    foreach ($groupe->getMembres() as $participant) {
+                        $sortie->addParticipant($participant);
+                    }
+                }
 
                 $sortie->setDuree(DateInterval::createFromDateString($form->get('dureeMinutes')->getData()." min"));
                 $sortie ->setOrganisateur($this->getUser());
@@ -190,6 +209,7 @@ final class SortieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $justification = $form->get('justification')->getData();
+
 
             if ($this->getUser() !== $sortie->getOrganisateur()){
                 return $this->json([
