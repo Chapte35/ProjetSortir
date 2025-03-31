@@ -23,7 +23,7 @@
                 {% if app.user in sortie.participants %}
                     <p class="alert alert-primary w-50" role="alert">Vous étes inscrit a cette sortie</p>
                     {% if date() < sortie.dateHeureDebut %}
-                        <a type="button" class="btn btn-danger" href="{{ path('sortie_app_sortie_sedesister', {'id': sortie.id}) }}">Se Désister</a>
+                        <a type="button" class="btn btn-danger" href="{{ path('sortie_app_sortie_sedesister', {'id': sortie.id}) }}">Se désister</a>
                     {% endif %}
 
 
@@ -37,7 +37,7 @@
             </div>
             {% if app.user %}
             <div class="border border-dark rounded-4 w-25">
-                <strong><p class="p-3">List des Participants:</p></strong>
+                <strong><p class="p-3">Liste des Participants:</p></strong>
                 {% for participant in sortie.participants %}
                     <a class="ps-3"
                        href="{{ path('app_profil_participant', {'id': participant.id}) }}">{{ participant.prenom }} {{ participant.nom }}</a>

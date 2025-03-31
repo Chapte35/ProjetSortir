@@ -8,18 +8,20 @@
                         <p class="card-text">Date de Sortie: {{ sortie.dateHeureDebut | date('d/m/Y H:i:s') }}</p>
                         <p class="card-text">Clôture : {{ sortie.dateLimiteInscription | date('d/m/Y H:i:s') }}</p>
                         {% if app.user in sortie.participants %}
-                            <p class="alert alert-primary w-50" role="alert">Vous étes inscrit a cette sortie</p>
-                            {#                        {% else %} #}
-                            {#                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}" class="btn btn-primary">S'inscrire</a> #}
+
+                            <p class="alert alert-primary w-100" role="alert">Vous êtes inscrit a cette sortie</p>
+                        {% elseif "Sortie annulée" in sortie.infosSortie %}
+                            <p class="alert alert-danger w-100" role="alert">Sortie annulée</p>
+
                         {% endif %}
                         <p class="card-text">Organisateur : {{ sortie.organisateur.nom }}</p>
                             <div class="w-100 container">
                                 <a href="{{ path('sortie_detail', {'id': sortie.id}) }}" class="btn btn-outline-info w-100 m-1">Afficher</a>
                             {% if app.user == sortie.organisateur %}
-                                {% if sortie.Etat.libelle != "Publiée" %}
+                                {% if sortie.Etat.libelle != "Publiée" and "Sortie annulée" not in sortie.infosSortie %}
                                 <a href="{{ path('sortie_modifier', {'id': sortie.id}) }}" class="btn btn-outline-success w-100 m-1">Publier</a>
                                 {% endif %}
-                                {% if sortie.Etat.libelle == "Publiée" %}
+                                {% if sortie.Etat.libelle == "Publiée" and "Sortie annulée" not in sortie.infosSortie %}
                                 <a href="{{ path('sortie_modifier', {'id': sortie.id}) }}" class="btn btn-outline-dark w-100 m-1">Modifier</a>
                                 {% endif %}
                             {% endif %}

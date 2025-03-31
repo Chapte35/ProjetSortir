@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Etat;
+use App\Entity\GroupePrive;
 use App\Entity\Lieu;
 use App\Entity\Participant;
 use App\Entity\Site;
@@ -39,6 +40,13 @@ class SortiesType extends AbstractType
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'choice_label' => 'nom',
+            ])
+            ->add('groupe', EntityType::class, [
+                'class' => GroupePrive::class,
+                'choice_label' => 'nom',
+                'mapped' => false,
+                'placeholder' => 'Groupe prive (Laissez vide si vous voulez que la sortie soit publique) :',
+                'required' => false,
             ])
         ;
     }

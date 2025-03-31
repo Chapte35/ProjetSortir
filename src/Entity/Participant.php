@@ -84,10 +84,24 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
+    /**
+     * @var Collection<int, GroupePrive>
+     */
+    #[ORM\ManyToMany(targetEntity: GroupePrive::class, mappedBy: 'membres')]
+    private Collection $groupesPrives;
+
+    /**
+     * @var Collection<int, GroupePrive>
+     */
+    #[ORM\OneToMany(targetEntity: GroupePrive::class, mappedBy: 'proprio')]
+    private Collection $mesGroupes;
+
     public function __construct()
     {
         $this->mesInscriptions = new ArrayCollection();
         $this->sortiesCree = new ArrayCollection();
+        $this->groupesPrives = new ArrayCollection();
+        $this->mesGroupes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -299,6 +313,63 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GroupePrive>
+     */
+    public function getGroupesPrives(): Collection
+    {
+        return $this->groupesPrives;
+    }
+
+    public function addGroupesPrife(GroupePrive $groupesPrife): static
+    {
+        if (!$this->groupesPrives->contains($groupesPrife)) {
+            $this->groupesPrives->add($groupesPrife);
+            $groupesPrife->addMembre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupesPrife(GroupePrive $groupesPrife): static
+    {
+        if ($this->groupesPrives->removeElement($groupesPrife)) {
+            $groupesPrife->removeMembre($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GroupePrive>
+     */
+    public function getMesGroupes(): Collection
+    {
+        return $this->mesGroupes;
+    }
+
+    public function addMesGroupe(GroupePrive $mesGroupe): static
+    {
+        if (!$this->mesGroupes->contains($mesGroupe)) {
+            $this->mesGroupes->add($mesGroupe);
+            $mesGroupe->setProprio($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMesGroupe(GroupePrive $mesGroupe): static
+    {
+        if ($this->mesGroupes->removeElement($mesGroupe)) {
+            // set the owning side to null (unless already changed)
+            if ($mesGroupe->getProprio() === $this) {
+                $mesGroupe->setProprio(null);
+            }
+        }
 
         return $this;
     }
