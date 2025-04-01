@@ -81,6 +81,9 @@ final class GroupePriveController extends AbstractController
         if (!$this->getUser()){
             $form->addError(new FormError("Vous devez être connecté pour modifier un groupe privé"));
         }
+        if ($request->getSession()->get('is_mobile')) {
+            throw $this->createAccessDeniedException("Création de groupe interdite sur mobile.");
+        }
 
         if ($form->isSubmitted() && $form->isValid() && $this->getUser()) {
 
