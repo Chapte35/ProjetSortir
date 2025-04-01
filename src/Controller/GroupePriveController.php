@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class GroupePriveController extends AbstractController
 {
 
-    #[Route('/acceuil', name: 'accueil')]
+    #[Route('/', name: 'accueil')]
     public function accueil(): Response
     {
         return $this->render('groupe_prive/index.html.twig', [
