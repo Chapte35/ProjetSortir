@@ -14,6 +14,7 @@ use Symfony\Component\PasswordHasher\Exception\InvalidPasswordException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/admin', name: 'app_register')]
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
