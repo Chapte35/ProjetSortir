@@ -1,6 +1,39 @@
 body {
-    background-color: #FFEEAD;
+    background-color: #ECE5D7;
 
+}
+
+.navbar-nav {
+    margin: 0 auto;
+    text-align: center;
+    gap: 20px;
+}
+
+
+.navbar-nav .nav-link {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 15px;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ff6600;
+    transform: scale(1.1);
+}
+
+.nav-item.bienvenue {
+    margin-left: auto;
+    font-size: 18px;
+    font-weight: bold;
+    color: #555;
+    padding: 10px 15px;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-toggler {
+    display: none;
 }
 
 .mt-10 {
@@ -43,15 +76,10 @@ body {
     font-size: clamp(1.5rem, 4vw, 2.5rem);
 }
 
-.btn-light{
+.btn-light {
     font-family: Arial, sans-serif;
 }
 
-
-.navbar-light {
-    background-color: #EDE6D6;
-
-}
 
 .photo {
     width: 100px; /* Définit la largeur de l'image */
@@ -69,176 +97,120 @@ footer {
     margin-top: 75px;
 }
 
-.w-500px{
+.w-500px {
     width: 500px;
     height: auto;
 }
 
-@media screen and (max-width: 768px) {
+.custom-card {
+    background: #f8f4f0; /* Blanc cassé élégant */
+    border-radius: 15px;
+    padding: 25px;
+    width: 380px;
+    position: relative;
+    top: -30px; /* Fait légèrement remonter la carte */
+}
+
+.title-text {
+    color: #444; /* Gris foncé pour un style sobre */
+}
+
+.input-group-text {
+    background: #eaeaea;
+    border: none;
+    color: #666;
+}
+
+.form-control {
+    border: 1px solid #d1d1d1;
+    background-color: #fcfcfc;
+}
+
+.form-control:focus {
+    border-color: #3b5998;
+    box-shadow: 0 0 5px rgba(59, 89, 152, 0.5);
+}
+
+.custom-btn {
+    background-color: #3b5998; /* Bleu nuit élégant */
+    border: none;
+    transition: all 0.3s;
+    color: white;
+}
+
+.custom-btn:hover {
+    background-color: #2e4372;
+}
+
+
+
+/* Rendre le bouton navbar visible sur mobile */
+.navbar-toggler {
+    display: block !important;
+}
+
+/* Ajustement de la carte de profil pour les petits écrans */
+@media (max-width: 768px) {
     .zoom {
-        transform: scale(1); /* No zoom on smaller screens */
+        transform: none; /* Désactiver le zoom sur mobile */
     }
 
-    .mt-10 {
-        margin-top: 10%;
+    .container {
+        padding: 0 15px;
     }
 
-    .photo {
-        width: 60px; /* Smaller photo on mobile */
-        height: 60px;
-    }
-}
-
-/*______________________________________________*/
-/*LOGIN*/
-/*______________________________________________*/
-.responsive-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 6%;
-}
-.responsive-box {
-    width: 25%; /* Largeur initiale pour desktop */
-    border: 1px solid black;
-    padding: 1rem;
-    border-radius: 1.5rem; /* Équivalent à rounded-5 */
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15); /* Équivalent à shadow */
-    background-color: var(--bs-tertiary-bg); /* Équivalent à bg-body-tertiary */
-    margin-bottom: 3rem; /* Équivalent à mb-5 */
-    transition: all 0.3s ease; /* Transition douce pour les changements */
-.btnLog {
-    background-color: #96CEB4;
-    border-radius: 5px;
-    border-color: transparent;
-    padding: 8px 15px; /* Padding standard pour desktop */
-    font-size: 1rem; /* Taille de police en unité relative */
-    transition: all 0.3s ease; /* Transition douce pour les changements */
-    width: auto; /* Largeur auto par défaut */
-    display: inline-block; /* Comportement d'affichage standard */
-    text-align: center; /* Centrage du texte */
-    margin: 5px; /* Marge standard */
-}
-
-.btnpsw {
-    background-color: #96CEB4;
-    border-radius: 10px;
-    border-color: transparent;
-    width: auto;
-    padding: 8px 15px; /* Padding similaire pour cohérence */
-    font-size: 1rem; /* Taille de police en unité relative */
-    transition: all 0.3s ease; /* Transition douce pour les changements */
-    display: inline-block; /* Comportement d'affichage standard */
-    text-align: center; /* Centrage du texte */
-    margin: 5px; /* Marge standard */
-}
-/*______________________________________________*/
-/*RESPONSIVE TABLETTE*/
-/*______________________________________________*/
-
-@media screen and (max-width: 1100px) {
-    .w-500px{
-        width: 100%;
-    }
-    .profil{
-        width: 100%;
-    }
-    .mt-10 {
-        margin-top: 12%;
-    }
-    .col-md-4.gradient-custom {
-        border-top-left-radius: .5rem;
-        border-top-right-radius: .5rem;
-        border-bottom-left-radius: 0;
-        padding: 20px 0;
-    }
-    .btnLog, .btnpsw {
-        display: flex;
-        flex-wrap: wrap;
-        padding: 7px 12px;
-        font-size: 0.95rem;
+    .profil .row {
+        flex-direction: column;
     }
 
-    .button-container {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-    .responsive-box{
-        width: 50%;}
-}
-
-
-}
-
-
-
-/*______________________________________________*/
-/*RESPONSIVE MOBILE*/
-/*______________________________________________*/
-
-@media screen and (max-width: 768px) {
-    .mt-10 {
-        margin-top: 20%;
+    .col-md-4 {
+        border-radius: 0.5rem 0.5rem 0 0 !important;
     }
 
-    .nav-item{
-
-        line-height: 80px;
+    .col-md-8 {
+        border-radius: 0 0 0.5rem 0.5rem !important;
     }
 
-    /* Stack columns on mobile */
-    .row.pt-1 .col-6 {
+    .h-300px {
+        height: auto;
+    }
+
+    .w-500px {
         width: 100%;
     }
 
-    .card-body {
+    .form-container {
+        width: 90% !important; /* Élargir le formulaire sur petits écrans */
+        padding: 20px;
+    }
+
+    .form-control {
+        font-size: 16px;
         padding: 10px;
     }
 
-    /* Adjust text size on mobile */
-    h5, h6 {
-        font-size: 1rem;
-    }
-
-    p {
-        font-size: 0.9rem;
-    }
-        .photo {
-            width: 200px;
-            height: 60px;
-            margin: 10px auto;
-            display: block;
-        }
     .btnLog, .btnpsw {
-        padding: 6px 10px; /* Padding plus compact */
-        font-size: 0.9rem; /* Police plus petite */
-        width: 100%; /* Largeur complète sur mobile */
-        max-width: 250px; /* Largeur maximale pour éviter les boutons trop larges */
-        margin: 5px auto; /* Centrage horizontal */
-        display: block; /* Passer en mode bloc pour un meilleur contrôle */
-    }
-
-    .button-group {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         width: 100%;
-    }
-    .responsive-box {
-
-        width: 90%;
-        padding: 0.75rem;
-        border-radius: 1rem;
+        margin-bottom: 10px;
     }
 
-    .responsive-container {
-        margin-top: 15%;
+    .d-flex.justify-content-evenly {
+        flex-direction: column;
+        gap: 10px;
     }
 
-
-
-
+    @media (min-width: 992px) {
+        .navbar-nav {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+    }
 }
+
+
+
+
 
 
 

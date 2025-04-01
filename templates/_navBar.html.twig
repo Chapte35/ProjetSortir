@@ -1,57 +1,50 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-96CEB4">
-
+<nav class="navbar navbar-expand-lg" style="background-color: #ECE5D7;">
     <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="{{ path('app_main') }}">
+            <img src="{{ asset('img/logo.png') }}" alt="logo" class="logo" style="height: 50px;">
+        </a>
+
+        <!-- Activation du bouton hamburger -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav mx-auto">
+        <!-- Menu responsive -->
+        <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
                     <li class="nav-item">
-                        <a class="nav-link mx-2 active" aria-current="page" href="#" title="Ville">Villes</a>
+                        <a class="nav-link active" href="#">Villes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mx-2 active" href="#">Sites</a>
+                        <a class="nav-link active" href="#">Sites</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link mx-2 active" href="{{ path('app_main') }}" tabindex="-1" aria-disabled="true"
-                       title="Sites">Sorties</a>
+                    <a class="nav-link active" href="{{ path('app_main') }}">Sorties</a>
                 </li>
-
                 {% if app.user %}
+                    {% if not app.session.get('is_mobile') %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ path('sortie_creer') }}">Proposer un évènement</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="{{ path('sortie_creer') }}" title="Sorties">Proposer
-                            un évènement</a>
-                    </li>
-                    <li class="nav-item d-none d-lg-block">
-                        <a class="nav-link mx-2" href="#">
-                            <img src="{{ asset('img/logo.png') }}" alt="logo">
-                        </a>
+                        <a class="nav-link active" href="{{ path('app_profil') }}">Mon profil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mx-2 active" aria-current="page" href="{{ path('app_profil') }}" title="Profil">Mon
-                            profil</a>
+                        <a class="nav-link active" href="{{ path('app_logout') }}">Se déconnecter</a>
                     </li>
-
-
                     <li class="nav-item">
-                        <a class="nav-link mx-2 active" href="{{ path('app_logout') }}" tabindex="-1" aria-disabled="true"
-                           title="Se déconnecter">Se déconnecter</a>
+                        <span class="nav-link">Bienvenue {{ app.user.pseudo }}</span>
                     </li>
-                    <li class="nav-item"><a class="text-black " tabindex="-1" aria-disabled="true"
-                                            title="Bienvenue pseudo">Bienvenue {{ app.user.pseudo }}</a></li>
-
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link mx-2 active" href="{{ path('app_login') }}" tabindex="-1" aria-disabled="true"
-                           title="Connection">Connection</a>
+                        <a class="nav-link active" href="{{ path('app_login') }}">Connexion</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mx-2 active" href="{{ path ('app_register') }}" tabindex="-1" aria-disabled="true"
-                           title="Inscription">Inscription</a>
+                        <a class="nav-link active" href="{{ path ('app_register') }}">Inscription</a>
                     </li>
                 {% endif %}
             </ul>
