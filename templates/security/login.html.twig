@@ -4,13 +4,13 @@
 
 {% block body %}
 
-    <div class="d-flex justify-content-center mt-10">
-    <div class="w-25 border border-black p-3 rounded-5 shadow p-3 mb-5 bg-body-tertiary rounded">
+    <div class="d-flex justify-content-center mt-10 responsive-container">
+        <div class="w-25 border border-black p-3 rounded-5 shadow p-3 mb-5 bg-body-tertiary rounded responsive-box">
 
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
 
     {% if app.user %}
         <div class="mb-3">
@@ -26,9 +26,9 @@
     <label for="inputPassword">Mot de passe</label>
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
 
     <div class="checkbox mb-3">
         <label>
@@ -36,18 +36,17 @@
         </label>
     </div>
 
-    <div class="d-flex justify-content-center justify-content-evenly">
-    <button  href="{{ path('app_main') }}" class="btn btn-lg btn-primary" type="submit">
-        Connexion
-    </button>
-        <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
+                    <div class="d-flex justify-content-center justify-content-evenly ">
+                        <button class="btnLog" href="{{ path('app_main') }}" type="submit">
+                            Connexion
+                        </button>
+                        <button class="btnpsw" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?
+                        </button>
+                    </div>
+            </form>
 
 
-    </div>
-</form>
-
-
-    </div>
+        </div>
     </div>
 
 {% endblock %}
