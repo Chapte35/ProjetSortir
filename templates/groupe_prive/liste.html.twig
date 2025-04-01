@@ -8,6 +8,14 @@
 <div class="container">
     <h1>Mes Groupes Privés</h1>
 
+    {% if groupes|length == 0 %}
+        <div class="container">
+            <p>Vous n'avez aucun groupe privé</p>
+            <p>Cliquez sur le lien pour créer un groupe privé</p>
+            <a href="{{ path('groupe_creer') }}" class="btn btn-outline-success w-100">Créer un Groupe Privé</a>
+        </div>
+    {% endif %}
+
     {% for groupe in groupes %}
     <table class="table">
         <thead>

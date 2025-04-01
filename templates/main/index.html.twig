@@ -13,14 +13,23 @@
         {{ form_errors(form) }}
         {{ form_start(form, {'attr': {'id': 'filter-form'}}) }}
         <div style="display: flex; flex-direction: row; width: 100%">
-            <div style="width: 45vw" class="m-3">
-                {{ form_row(form.nom) }}
-                {{ form_row(form.site) }}
-                {{ form_row(form.organisateur) }}
-                {{ form_row(form.participants) }}
+            <div style="width: 45vw" class="m-3 ">
+                <div class="m-2">
+                    {{ form_row(form.nom) }}
+                </div>
+                <div class="m-2 mt-4">
+                    {{ form_row(form.site) }}
+                </div>
+                <div class="m-2 mt-4">
+                    {{ form_row(form.organisateur) }}
+                </div>
+                <div class="m-2 mt-4">
+                    {{ form_row(form.participants) }}
+                </div>
             </div>
             <div style="width: 45vw" class="m-3">
                 {{ form_row(form.dateHeureDebut) }}
+                {{ form_row(form.etat) }}
             </div>
         </div>
         <button type="submit" class="btn btn-info justify-content-lg-center mb-3 w-50">Filtrer</button>
