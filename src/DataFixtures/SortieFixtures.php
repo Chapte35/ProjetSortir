@@ -50,7 +50,7 @@ class SortieFixtures extends Fixture  implements DependentFixtureInterface
 
         $sortie = new Sortie();
 
-        $sortie->setNom($faker->city. " ". $faker->company);
+        $sortie->setNom($faker->city. " ". $faker->company . " " . $faker->emoji);
         $sortie->setSite($faker->randomElement($sites));
         $sortie->setInfosSortie($faker->realText(20,5));
         $sortie->setEtat($faker->randomElement($etats));
