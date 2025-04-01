@@ -54,6 +54,9 @@ final class SortieController extends AbstractController
                 foreach ($groupe->getMembres() as $participant) {
                     $sortie->addParticipant($participant);
                 }
+                if ($request->getSession()->get('is_mobile')) {
+                    throw $this->createAccessDeniedException("Création de sortie interdite sur mobile.");
+                }
             }
 
             $sortie->setDuree(DateInterval::createFromDateString($form->get('dureeMinutes')->getData()." min"));
