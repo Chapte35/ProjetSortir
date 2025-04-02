@@ -32,16 +32,16 @@ final class MainController extends AbstractController
 
         $filterForm->handleRequest($request);
 
-        $filterBuilder = $em
-            ->getRepository(Sortie::class)
-            ->createQueryBuilder('sortie');
-
-        $filterBuilderUpdater->addFilterConditions($filterForm, $filterBuilder);
+//        $filterBuilder = $em
+//            ->getRepository(Sortie::class)
+//            ->createQueryBuilder('sortie');
+//
+//        $filterBuilderUpdater->addFilterConditions($filterForm, $filterBuilder);
 
         $sorties = [];
 
         if ($filterForm->isSubmitted()) {
-            $sorties = $sortieRepository->rechercheSorties($filterBuilder,$filterForm->getData(), $this->getUser());
+            $sorties = $sortieRepository->rechercheSorties($filterForm, $this->getUser());
         }else{
             $sorties = $sortieRepository->findAll();
         }

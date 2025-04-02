@@ -8,31 +8,52 @@
     <div class="p-5">
         <div class="row">
 
-    <div class="card container m-3">
+    <div class="card container m-3 ">
 
         {{ form_errors(form) }}
         {{ form_start(form, {'attr': {'id': 'filter-form'}}) }}
         <div style="display: flex; flex-direction: row; width: 100%">
             <div style="width: 45vw" class="m-3 ">
                 <div class="m-2">
-                    {{ form_row(form.nom) }}
-                </div>
-                <div class="m-2 mt-4">
                     {{ form_row(form.site) }}
                 </div>
-                <div class="m-2 mt-4">
-                    {{ form_row(form.organisateur) }}
+                <div class="m-2 mt-1">
+                    {{ form_row(form.nom) }}
                 </div>
-                <div class="m-2 mt-4">
-                    {{ form_row(form.participants) }}
-                </div>
+
             </div>
             <div style="width: 45vw" class="m-3">
-                {{ form_row(form.dateHeureDebut) }}
-                {{ form_row(form.etat) }}
+
+                <div class="m-2 mt-1">
+                    {{ form_row(form.dateHeureDebut) }}
+                </div>
+                <div class="m-2 mt-1">
+                    {{ form_row(form.dateHeureFin) }}
+                </div>
+
+
             </div>
         </div>
-        <button type="submit" class="btn btn-info justify-content-lg-center mb-3 w-50">Filtrer</button>
+        <div style="display: flex; flex-direction: row; width: 100%">
+            <div class="w-50">
+                <div class="m-5 w-100">
+                    {{ form_row(form.moiOrganisateur) }}
+                </div>
+                <div class="m-5 w-100">
+                    {{ form_row(form.moiInscrit) }}
+                </div>
+            </div>
+            <div class="w-50">
+                <div class="m-5 w-100">
+                    {{ form_row(form.moiPasInscrit) }}
+                </div>
+                <div class="m-5 w-100">
+                    {{ form_row(form.sortiesPassees) }}
+                </div>
+            </div>
+
+        </div>
+        <button type="submit" class="btn btn-info w-100 mb-3">Filtrer</button>
         {{ form_end(form) }}
     </div>
             <div id="sorties-container" class="container m-3 w-100 row row-cols-1 row-cols-sm-2 row-cols-md-3">
