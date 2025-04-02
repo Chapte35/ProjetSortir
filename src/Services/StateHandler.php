@@ -91,7 +91,7 @@ class StateHandler
                     if ($interval->days >= 30) {
                         dump('im in');
                         foreach ($etats as $etat) {
-                            if ($etat->getLibelle() == 'Archiver') {
+                            if ($etat->getLibelle() == 'Archivée') {
                                 $sortie->setEtat($etat);
                             }
                         }
