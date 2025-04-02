@@ -26,7 +26,12 @@ final class MainController extends AbstractController
     ): Response
     {
         $sorties = $sortieRepository->findAll();
+
+
+        if (false){
         $stateHandler->handleStates($sorties);
+        }
+
 
         $filterForm = $this->createForm(SortieFilterType::class);
 
