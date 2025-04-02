@@ -40,6 +40,28 @@ class SortieFixtures extends Fixture  implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $faker = \Faker\Factory::create('fr_FR');
+        $nomsSorties = [
+            "Randonnée en montagne",
+            "Soirée jeux de société",
+            "Dégustation de vins",
+            "Balade en forêt",
+            "Sortie kayak",
+            "Escape game",
+            "Visite de musée",
+            "Camping sauvage",
+            "Journée à la plage",
+            "Atelier de cuisine",
+            "Concert live",
+            "Exposition d'art",
+            "Course d'orientation",
+            "Balade à cheval",
+            "Match de football",
+            "Soirée cinéma en plein air",
+            "Sortie plongée",
+            "Journée parc d'attractions",
+            "Road trip entre amis",
+            "Initiation à l'escalade"
+        ];
 
         $sites = $this->siteRepository->findAll();
         $etats = $this->etatRepository->findAll();
@@ -50,7 +72,7 @@ class SortieFixtures extends Fixture  implements DependentFixtureInterface
 
         $sortie = new Sortie();
 
-        $sortie->setNom($faker->city. " ". $faker->company);
+        $sortie->setNom($faker->randomElement($nomsSorties) . " " . $faker->emoji);
         $sortie->setSite($faker->randomElement($sites));
         $sortie->setInfosSortie($faker->realText(20,5));
         $sortie->setEtat($faker->randomElement($etats));
@@ -66,6 +88,7 @@ class SortieFixtures extends Fixture  implements DependentFixtureInterface
         if ($sortie->isEstPublie()){
         $sortie->addParticipant($proprio);
         }
+        $sortie->setDuree(\DateInterval::createFromDateString($faker->numberBetween(30,240).' minutes'));
         $manager->persist($sortie);
 
         }

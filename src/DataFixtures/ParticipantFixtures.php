@@ -37,7 +37,7 @@ class ParticipantFixtures extends Fixture  implements DependentFixtureInterface
         $chapte->setPassword($this->userPasswordHasher->hashPassword($chapte,"azeaze"));
         $chapte->setActif(true);
         $chapte->setEmail("chapte@mail.fr");
-        $chapte->setRoles(["ROLE_USER"]);
+        $chapte->setRoles(["ROLE_USER","ROLE_ADMIN"]);
         $chapte->setTelephone("0636303630");
         $chapte->setSite($faker->randomElement($sites));
         $manager->persist($chapte);
@@ -49,7 +49,7 @@ class ParticipantFixtures extends Fixture  implements DependentFixtureInterface
         $oussama->setPassword($this->userPasswordHasher->hashPassword($oussama,"aaa"));
         $oussama->setActif(true);
         $oussama->setEmail("bombaclat@mail.com");
-        $oussama->setRoles(["ROLE_USER"]);
+        $oussama->setRoles(["ROLE_USER","ROLE_ADMIN"]);
         $oussama->setTelephone("0636303630");
         $oussama->setSite($faker->randomElement($sites));
         $manager->persist($oussama);
@@ -61,7 +61,7 @@ class ParticipantFixtures extends Fixture  implements DependentFixtureInterface
         $jeanne->setPassword($this->userPasswordHasher->hashPassword($jeanne,"Azerty123456!"));
         $jeanne->setActif(true);
         $jeanne->setEmail("T.ledino@gmail.com");
-        $jeanne->setRoles(["ROLE_USER"]);
+        $jeanne->setRoles(["ROLE_USER","ROLE_ADMIN"]);
         $jeanne->setTelephone("0636303630");
         $jeanne->setSite($faker->randomElement($sites));
         $manager->persist($jeanne);
@@ -73,7 +73,7 @@ class ParticipantFixtures extends Fixture  implements DependentFixtureInterface
         $audrey->setPassword($this->userPasswordHasher->hashPassword($audrey,"azerty"));
         $audrey->setActif(true);
         $audrey->setEmail("audrey@mail.fr");
-        $audrey->setRoles(["ROLE_USER"]);
+        $audrey->setRoles(["ROLE_USER","ROLE_ADMIN"]);
         $audrey->setTelephone("0636303630");
         $audrey->setSite($faker->randomElement($sites));
         $manager->persist($audrey);
@@ -85,7 +85,7 @@ class ParticipantFixtures extends Fixture  implements DependentFixtureInterface
         $admin->setPassword($this->userPasswordHasher->hashPassword($admin,"admin"));
         $admin->setActif(true);
         $admin->setEmail("admin@admin.admin");
-        $admin->setRoles(["ROLE_USER"]);
+        $admin->setRoles(["ROLE_USER","ROLE_ADMIN"]);
         $admin->setTelephone("0636303630");
         $admin->setSite($faker->randomElement($sites));
         $manager->persist($admin);
