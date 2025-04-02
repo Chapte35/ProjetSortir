@@ -15,10 +15,10 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Villes</a>
+                        <a class="nav-link active" href="{{ path('app_villesapp_villes-list') }}">Villes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Sites</a>
+                        <a class="nav-link active" href="{{ path('app_lieuapp_lieu') }}">Sites</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
