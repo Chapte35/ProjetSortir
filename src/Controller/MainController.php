@@ -43,7 +43,7 @@ final class MainController extends AbstractController
         if ($filterForm->isSubmitted()) {
             $sorties = $sortieRepository->rechercheSorties($filterForm, $this->getUser());
         }else{
-            $sorties = $sortieRepository->findAll();
+            $sorties = $sortieRepository->getSortiesAVenir();
         }
 
         if ($request->isXmlHttpRequest()) {
