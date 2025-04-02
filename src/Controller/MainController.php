@@ -25,8 +25,11 @@ final class MainController extends AbstractController
         EntityManagerInterface $em
     ): Response
     {
-        $sorties = $sortieRepository->findAll();
+        $sorties = $sortieRepository->findActiveSorties();
+
         $stateHandler->handleStates($sorties);
+
+
 
         $filterForm = $this->createForm(SortieFilterType::class);
 
@@ -43,7 +46,7 @@ final class MainController extends AbstractController
         if ($filterForm->isSubmitted()) {
             $sorties = $sortieRepository->rechercheSorties($filterForm, $this->getUser());
         }else{
-            $sorties = $sortieRepository->findAll();
+            $sorties = $sortieRepository->findActiveSorties();
         }
 
         if ($request->isXmlHttpRequest()) {

@@ -43,7 +43,7 @@ class AnnulerSortieService
 
         // Mettre à jour la sortie
         $sortie->setInfosSortie("Sortie annulée : ". $justification);
-        $sortie->setEtat($this->etatRepository->find(5));
+        $sortie->setEtat($this->etatRepository->findOneBy(['libelle' => 'Annulée',]));
         // Enregistrer la sortie
         $this->entityManager->persist($sortie);
         $this->entityManager->flush();

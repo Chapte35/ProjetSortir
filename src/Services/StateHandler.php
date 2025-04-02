@@ -89,7 +89,6 @@ class StateHandler
                     $interval = $dateFin->diff($currentDate);
 
                     if ($interval->days >= 30) {
-                        dump('im in');
                         foreach ($etats as $etat) {
                             if ($etat->getLibelle() == 'Archiver') {
                                 $sortie->setEtat($etat);

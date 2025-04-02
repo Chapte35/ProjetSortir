@@ -7,6 +7,7 @@ use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Form\UploadCsvType;
 use App\Repository\EtatRepository;
+use App\Repository\GroupePriveRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -132,22 +133,43 @@ final class AdminController extends AbstractController
     }
 
     #[Route('/supprimer/{id}', name: 'app_admin_supprimer')]
-    public function supprimer(ParticipantRepository $participantRepository,EntityManagerInterface $entityManager,int $id): Response
-    {
+    public function supprimer(
+        ParticipantRepository $participantRepository,
+        EntityManagerInterface $entityManager,
+        int $id,
+        GroupePriveRepository $groupePriveRepository
+    ): Response {
+        $participant = $participantRepository->find($id);
 
-        $participants = $participantRepository->find($id);
-        $entityManager->remove($participants);
+        if (!$participant) {
+            $this->addFlash('error', 'Utilisateur non trouvé.');
+            return $this->redirectToRoute('admin_app_admin_userlist');
+        }
+
+
+        $groupes = $groupePriveRepository->findBy(['proprio' => $participant]);
+
+        foreach ($groupes as $groupe) {
+            $groupe->setProprio(null);
+        }
+
+
+        $entityManager->remove($participant);
         $entityManager->flush();
+
+
+        $this->addFlash('success', 'Utilisateur supprimé avec succès.');
 
         return $this->redirectToRoute('admin_app_admin_userlist');
     }
 
 
 
+
     #[Route('/sortie', name: 'app_admin_sortie')]
     public function sortie(sortieRepository $sortieRepository): Response
     {
-        $sorties = $sortieRepository->findAll();
+        $sorties = $sortieRepository->findnotAnnulee();
 
 
         return $this->render('admin/sorties.html.twig', [
