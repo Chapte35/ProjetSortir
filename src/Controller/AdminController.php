@@ -149,6 +149,7 @@ final class AdminController extends AbstractController
     {
         $sorties = $sortieRepository->findAll();
 
+
         return $this->render('admin/sorties.html.twig', [
             "sorties" => $sorties,
         ]);
@@ -157,7 +158,7 @@ final class AdminController extends AbstractController
     #[Route('/sortie/annuler/{id}', name: 'app_admin_sortie_annuler')]
     public function annuler(EtatRepository $etatRepository, sortieRepository $sortieRepository,int $id,EntityManagerInterface $entityManager): Response
     {
-        $annuler = $etatRepository->find(5);
+        $annuler = $etatRepository->findOneBy(['libelle' => 'Annulée']);
 
         $sortie = $sortieRepository->find($id);
         $sortie ->setEtat($annuler);
