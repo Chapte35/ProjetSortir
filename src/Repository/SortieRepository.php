@@ -48,6 +48,21 @@ class SortieRepository extends ServiceEntityRepository
     //        ;
     //    }
 
+    /**
+     * @throws \DateInvalidOperationException
+     */
+    public function getSortiesAVenir(){
+        $builder = $this->em
+            ->getRepository(Sortie::class)
+            ->createQueryBuilder('sortie')
+            ->andWhere('sortie.dateHeureDebut NOT BETWEEN :threeYearsBefore AND :now ')
+            ->setParameter('threeYearsBefore',(new \DateTime())->sub(new \DateInterval('P3Y')))
+            ->setParameter('now',new \DateTime());
+
+            return $builder->getQuery()->getResult();
+    }
+
+
     public function rechercheSorties($filters, $user)
     {
 
@@ -98,7 +113,11 @@ class SortieRepository extends ServiceEntityRepository
         }
         if ($sortiesPassees){
             $filterBuiler->andWhere('sortie.dateHeureDebut BETWEEN :oneMonthAgo AND :now ')
-                ->setParameter('oneMonthAgo',(new \DateTime())->sub(new \DateInterval('P1M')))
+                ->setParameter('oneMonthAgo',(new \DateTime())->sub(new \DateInterval('P3Y')))
+                ->setParameter('now',new \DateTime());
+        }else{
+            $filterBuiler->andWhere('sortie.dateHeureDebut NOT BETWEEN :oneMonthAgo AND :now ')
+                ->setParameter('oneMonthAgo',(new \DateTime())->sub(new \DateInterval('P3Y')))
                 ->setParameter('now',new \DateTime());
         }
 
