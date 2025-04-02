@@ -15,13 +15,13 @@
                 <p>Date de Sortie: {{ sortie.dateHeureDebut | date('d/m/Y H:i:s') }}</p>
                 <p>Clôture : {{ sortie.dateLimiteInscription | date('d/m/Y H:i:s') }}</p>
 
-                <p>participants : {{ sortie.participants | length }}/{{ sortie.nbInscriptionsMax }}</p>
+                <p>Participants : {{ sortie.participants | length }}/{{ sortie.nbInscriptionsMax }}</p>
                 {% if sortie.Etat %}
                 <p class="card-text">{{ sortie.Etat.libelle }}</p>
                 {% endif %}
                 <p class="card-text">Organisateur : {{ sortie.organisateur.nom }} {{ sortie.organisateur.prenom }}</p>
                 {% if app.user in sortie.participants %}
-                    <p class="alert alert-primary w-50" role="alert">Vous étes inscrit a cette sortie</p>
+                    <p class="alert alert-primary w-50" role="alert">Vous êtes inscrit a cette sortie</p>
                     {% if date() < sortie.dateHeureDebut %}
                         <a type="button" class="btn btn-danger" href="{{ path('sortie_app_sortie_sedesister', {'id': sortie.id}) }}">Se désister</a>
                     {% endif %}
@@ -29,9 +29,12 @@
 
 
 
+
                 {% else %}
-                    {% if date() < sortie.dateLimiteInscription %}
+                    {% if date() < sortie.dateLimiteInscription and sortie.participants|length < sortie.nbInscriptionsMax  %}
                     <a type="button" href="{{ path('sortie_inscrire', {'id': sortie.id}) }}" class="btn btn-info">S'inscrire</a>
+                        {% else %}
+                        <p>Il n'y a plus de places pour cette sortie</p>
                     {% endif%}
                 {% endif %}
             </div>
