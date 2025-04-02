@@ -15,10 +15,10 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ path('app_villesapp_villes-list') }}">Villes</a>
+                        <a class="nav-link active" href="{{ path('admin_app_admin') }}">Dashboard Admin</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ path('app_lieuapp_lieu') }}">Sites</a>
+                        <a class="nav-link active" href="{{ path('app_villesapp_villes-list') }}">Villes</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
@@ -31,7 +31,13 @@
                         </li>
                     {% endif %}
                     <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_lieuapp_lieu') }}">Ajouter un lieu</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link active" href="{{ path('app_profil') }}">Mon profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('groupe_accueil') }}">Mes groupes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ path('app_logout') }}">Se déconnecter</a>
