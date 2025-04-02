@@ -1,52 +1,47 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-96CEB4">
-
+<nav class="navbar navbar-expand-lg" style="background-color: #ECE5D7;">
     <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
-                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="{{ path('app_main') }}">
+            <img src="{{ asset('img/logo.png') }}" alt="logo" class="logo" style="height: 50px;">
+        </a>
+
+        <!-- Activation du bouton hamburger -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-{#        <nav class="navbar bg-body-tertiary">#}
-{#            <div class="container"><a class="navbar-brand" href="#"> <img#}
-{#                           src="{{ asset('assets/img/logo.png') }}" class="bias" alt="Bootstrap" width="40" height="40"> </a>#}
-{#            </div>#}
-{#        </nav>#}
 
-        <img src="{{ asset('assets/img/logo/logo.jpg') }}" alt="gg">
-
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- Menu responsive -->
+        <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#" title="Ville">Villes</a>
+                        <a class="nav-link active" href="{{ path('app_villesapp_villes-list') }}">Villes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sites</a>
+                        <a class="nav-link active" href="{{ path('app_lieuapp_lieu') }}">Sites</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_main') }}" tabindex="-1" aria-disabled="true" title="Sites">Accueil</a>
+                    <a class="nav-link active" href="{{ path('app_main') }}">Sorties</a>
                 </li>
-
                 {% if app.user %}
+                    {% if not app.session.get('is_mobile') %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ path('sortie_creer') }}">Proposer un évènement</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="{{ path('app_profil') }}" title="Profil">Mon
-                            profil</a>
+                        <a class="nav-link active" href="{{ path('app_profil') }}">Mon profil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link "  aria-current="page" href="{{ path('sortie_creer') }}" title="Sorties">Réaliser une sortie</a>
+                        <a class="nav-link active" href="{{ path('app_logout') }}">Se déconnecter</a>
                     </li>
-
                     <li class="nav-item">
-                        <a class="nav-link " href="{{ path('app_logout') }}" tabindex="-1" aria-disabled="true"
-                           title="Se déconnecter">Se déconnecter</a>
+                        <span class="nav-link">Bienvenue {{ app.user.pseudo }}</span>
                     </li>
-                    <li class="nav-item"><a class="text-black " tabindex="-1" aria-disabled="true"
-                                            title="Bienvenue pseudo">Bienvenue {{ app.user.pseudo }}</a></li>
-
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link " href="{{ path('app_login') }}" tabindex="-1" aria-disabled="true"
-                           title="Connection">Connection</a>
+                        <a class="nav-link active" href="{{ path('app_login') }}">Connexion</a>
                     </li>
                 {% endif %}
             </ul>

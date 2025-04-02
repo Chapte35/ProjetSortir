@@ -6,16 +6,20 @@ use App\Entity\Participant;
 use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;
 use App\Services\Uploader;
+use ContainerW8yC7yF\getChangePasswordFormTypeService;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+
 
 final class UserCrudController extends AbstractController
 {
+
 
     #[Route('/user/crud', name: 'app_user_crud')]
     public function index(): Response
@@ -44,11 +48,11 @@ final class UserCrudController extends AbstractController
 //modif du profil
     #[Route('/user/crud/edit', name: 'app_user_crud_edit', methods: ['GET', 'POST'])]
     public function edit(
-        ParticipantRepository  $participantRepository,
-        Request                $request,
-        EntityManagerInterface $entityManager,
-        Uploader               $uploader,
-        //int $id
+        ParticipantRepository   $participantRepository,
+        Request                 $request,
+        EntityManagerInterface  $entityManager,
+        Uploader                $uploader,
+        UserPasswordHasherInterface $passwordHashed,
     ): Response
     {
         $user = $this->getUser();
@@ -62,6 +66,13 @@ final class UserCrudController extends AbstractController
         //Verifier si formulaire soumis et valide
         if ($participantForm->isSubmitted() && $participantForm->isValid()) {
 
+            //Recupère mdp /hachage pour la modification de mdp dans le profil
+            $password = $participantForm->get('password')->getData();
+            if ($password) {
+                // Hachage du mot de passe
+                $hashedPassword = $passwordHashed->hashPassword($user, $password);
+                $user->setPassword($hashedPassword);
+            }
 
             if ($participantForm->get('image')->getData()){
                 //      Pour l'upload de photo
@@ -78,7 +89,7 @@ final class UserCrudController extends AbstractController
             $this->addFlash('success', 'Changement effectuer');
 
 
-            return $this->redirectToRoute('app_user_crud_edit');
+            return $this->redirectToRoute('app_profil');
         }
         return $this->render('edit.html.twig', [
             'participantForm' => $participantForm->createView(),

@@ -54,6 +54,9 @@ final class SortieController extends AbstractController
                 foreach ($groupe->getMembres() as $participant) {
                     $sortie->addParticipant($participant);
                 }
+                if ($request->getSession()->get('is_mobile')) {
+                    throw $this->createAccessDeniedException("Création de sortie interdite sur mobile.");
+                }
             }
 
             $sortie->setDuree(DateInterval::createFromDateString($form->get('dureeMinutes')->getData()." min"));
@@ -202,8 +205,9 @@ final class SortieController extends AbstractController
      * @throws \Exception
      */
     #[Route('/submit-justification/{id}', name: 'submit_justification', methods: ['POST'])]
-    public function submitJustification(Sortie $sortie, Request $request, SessionInterface $session, AnnulerSortieService $annulerSortieService, ParticipantRepository $participantRepository): Response
+    public function submitJustification(EtatRepository $etatRepository,Sortie $sortie, Request $request, SessionInterface $session, AnnulerSortieService $annulerSortieService, ParticipantRepository $participantRepository): Response
     {
+        $etats = $etatRepository->findAll();
         $form = $this->createForm(JustificationFormType::class);
         $form->handleRequest($request);
 
@@ -220,6 +224,7 @@ final class SortieController extends AbstractController
 
             // Traitement de l'annulation
             if ($this->getUser()){
+//              ASSIGNER UN ETEAT ANULLE ICI
                 $annulerSortieService->annulerSortie($sortie->getId(),$justification,$this->getUser());
             }
 

@@ -38,6 +38,15 @@ class RegistrationFormType extends AbstractType
             ->add('plainPasswordVerif', PasswordType::class, [
                 'mapped' => false,
             ])
+            //utiliser un repeatedType
+//            ->add('plainPassword', RepeatedType::class, [
+//                'type' => PasswordType::class,
+//                'first_name' => 'plainPassword',     // Nom du premier champ (mot de passe)
+//                'second_name' => 'plainPasswordVerif', // Nom du second champ (confirmation mot de passe)
+//                'mapped' => false,                     // Les champs ne sont pas liés à l'entité
+//                'attr' => ['autocomplete' => 'new-password'],
+//                'invalid_message' => 'Les mots de passe ne correspondent pas.', // Message d'erreur si les mots de passe ne correspondent pas
+//            ]);
         ;
     }
 
