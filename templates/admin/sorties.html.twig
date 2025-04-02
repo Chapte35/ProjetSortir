@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>List des sorties</h1>
+    <div class="m-5">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">nom</th>
+                <th scope="col">organisateur</th>
+                <th scope="col">Date de debut</th>
+                <th scope="col">info</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for sortie in sorties %}
+                {% if date() < sortie.dateHeureDebut and sortie.etat.libelle != 'Annuler' and sortie.etat.libelle != 'archiver' %}
+                <tr>
+
+                    <td>{{ sortie.id }}</td>
+                    <td>{{ sortie.nom }}</td>
+                    <td>{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom }}</td>
+                    <td>{{ sortie.dateHeureDebut | date('d/m/Y H:i:s') }}</td>
+                    <td>{{ sortie.infosSortie }}</td>
+                    <td>
+                        <a type="button" class="btn btn-danger" href="{{ path('admin_app_admin_sortie_annuler' , {'id': sortie.id}) }}">Annuler</a>
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
