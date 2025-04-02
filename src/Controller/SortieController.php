@@ -95,7 +95,7 @@ final class SortieController extends AbstractController
         if (!$date > new \DateTime()){
             $this->addFlash("warning","La sortie est cloturée !");
         }
-        if (!$nbInsriptions > 0){
+        if (!$nbInsriptions < 0){
             $this->addFlash("warning","Ya pu d'place !");
         }
 
