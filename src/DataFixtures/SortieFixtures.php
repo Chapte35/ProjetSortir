@@ -50,7 +50,7 @@ class SortieFixtures extends Fixture  implements DependentFixtureInterface
 
         $sortie = new Sortie();
 
-        $sortie->setNom($faker->city. " ". $faker->company);
+        $sortie->setNom($faker->city. " ". $faker->company . " " . $faker->emoji);
         $sortie->setSite($faker->randomElement($sites));
         $sortie->setInfosSortie($faker->realText(20,5));
         $sortie->setEtat($faker->randomElement($etats));
@@ -66,6 +66,7 @@ class SortieFixtures extends Fixture  implements DependentFixtureInterface
         if ($sortie->isEstPublie()){
         $sortie->addParticipant($proprio);
         }
+        $sortie->setDuree(\DateInterval::createFromDateString($faker->numberBetween(30,240).' minutes'));
         $manager->persist($sortie);
 
         }

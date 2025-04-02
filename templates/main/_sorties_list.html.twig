@@ -7,12 +7,17 @@
                         <h5 class="card-title text-center">{{ sortie.nom }}</h5>
                         <p class="card-text">Date de Sortie: {{ sortie.dateHeureDebut | date('d/m/Y H:i:s') }}</p>
                         <p class="card-text">Clôture : {{ sortie.dateLimiteInscription | date('d/m/Y H:i:s') }}</p>
-                        {% if app.user in sortie.participants %}
+                        {% if app.user in sortie.participants and "Sortie annulée" not in sortie.infosSortie %}
 
                             <p class="alert alert-primary w-100" role="alert">Vous êtes inscrit a cette sortie</p>
-                        {% elseif "Sortie annulée" in sortie.infosSortie %}
+                        {% elseif sortie.Etat.libelle == "Annulée" %}
                             <p class="alert alert-danger w-100" role="alert">Sortie annulée</p>
-
+                        {% elseif sortie.Etat.libelle == "Activite en Cours" %}
+                            <p class="alert alert-success w-100" role="alert">Sortie En Cours</p>
+                        {% elseif sortie.Etat.libelle == "Ouverte" %}
+                            <p class="alert alert-info w-100" role="alert">Sortie Ouverte</p>
+                        {% elseif sortie.Etat.libelle == "" %}
+                            <p class="alert alert-success w-100" role="alert">Sortie En Cours</p>
                         {% endif %}
                         <p class="card-text">Organisateur : {{ sortie.organisateur.nom }}</p>
                             <div class="w-100 container">
