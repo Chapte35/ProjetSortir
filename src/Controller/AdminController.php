@@ -6,7 +6,9 @@ use App\Entity\Participant;
 use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Form\UploadCsvType;
+use App\Repository\EtatRepository;
 use App\Repository\ParticipantRepository;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -138,6 +140,34 @@ final class AdminController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('admin_app_admin_userlist');
+    }
+
+
+
+    #[Route('/sortie', name: 'app_admin_sortie')]
+    public function sortie(sortieRepository $sortieRepository): Response
+    {
+        $sorties = $sortieRepository->findAll();
+
+        return $this->render('admin/sorties.html.twig', [
+            "sorties" => $sorties,
+        ]);
+    }
+
+    #[Route('/sortie/annuler/{id}', name: 'app_admin_sortie_annuler')]
+    public function annuler(EtatRepository $etatRepository, sortieRepository $sortieRepository,int $id,EntityManagerInterface $entityManager): Response
+    {
+        $annuler = $etatRepository->find(5);
+
+        $sortie = $sortieRepository->find($id);
+        $sortie ->setEtat($annuler);
+        $sortie->setInfosSortie('Sortie annulée par un administrateur');
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_app_admin_sortie');
+
+
     }
 
 
