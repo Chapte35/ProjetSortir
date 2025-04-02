@@ -17,8 +17,11 @@
                             <p class="alert alert-success w-100" role="alert">Sortie En Cours</p>
                         {% elseif sortie.Etat.libelle == "Ouverte" %}
                             <p class="alert alert-info w-100" role="alert">Sortie Ouverte</p>
-                        {% elseif sortie.Etat.libelle == "" %}
-                            <p class="alert alert-success w-100" role="alert">Sortie En Cours</p>
+                        {% elseif sortie.Etat.libelle == "Cloturée" %}
+                            <p class="alert alert-warning w-100" role="alert">Sortie Cloturée</p>
+                        {% elseif sortie.Etat.libelle == "Passée" %}
+                            <p class="alert alert-light w-100" role="alert">Sortie Passée</p>
+
                         {% endif %}
                         <p class="card-text">Organisateur : {{ sortie.organisateur.nom }}</p>
                             <div class="w-100 container">
