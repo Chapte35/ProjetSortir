@@ -3,28 +3,41 @@
 {% block title %}Groupes{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    {% if app.user %}
-        <h1>Hello {{ app.user.pseudo }}! ✅</h1>
-    {% endif %}
 
-    <div class="card">
-        <div class="card-body align-items-center">
-            <h2 class="text-center m-3">Bienvenue sur votre espace Groupe Prive </h2>
-            <p class="text-center m-3">Cet espace vous permet de créer un groupe nommé que vous pourrez préinscrire a une sortie dite privée.</p>
-            <p class="text-center m-3">Si vous avez deja un groupe privé, vous pouvez le trouver sur la page </p>
-            <a href="{{ path('groupe_liste') }}" class="btn btn-outline-info w-100">Liste de vos Groupes</a>
-            <p class="text-center m-3">Si vous n'avez pas de groupes privés vous pouvez en créer ici :</p>
-            <a href="{{ path('groupe_creer') }}" class="btn btn-outline-success w-100">Créer un Groupe</a>
+    <div class="container py-4">
+        <div class="card" style="background: #f8f4f0; border-radius: 15px; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);">
+            <div class="card-body">
+                <div class="d-flex justify-content-center mb-4">
+                    {% if app.user %}
+                        <h1 class="mb-0 position-relative" style="color: #444; padding-bottom: 12px;">
+                            Hello {{ app.user.pseudo }}! ✅</h1>
+                    {% endif %}
+                </div>
+                <hr style="width: 100%; height: 3px; background: #96CEB4; border-radius: 3px;">
+                <br>
+                <h2 class="text-center m-3">Bienvenue sur votre espace Groupe Prive </h2>
+                <p class="text-center m-3">Cet espace vous permet de créer un groupe nommé que vous pourrez
+                    préinscrire a une sortie dite privée.</p>
+                <p class="text-center m-3">Si vous avez deja un groupe privé, vous pouvez le trouver sur la
+                    page </p>
+                <div class="d-flex justify-content-center mt-3">
+                    <a href="{{ path('groupe_liste') }}" class="btn justify-content-center w-30"
+                       style="background-color: #96CEB4; color: black; font-weight: 600; border: none; padding: 10px 50px; border-radius: 8px;">Liste
+                        de vos Groupes</a>
+                </div>
+                <br>
+                {% if not app.session.get('is_mobile') %}
+                <p class="text-center m-3">Si vous n'avez pas de groupes privés vous pouvez en créer ici :</p>
+                <div class="d-flex justify-content-center mt-3">
+                    <a href="{{ path('groupe_creer') }}" class="btn justify-content-center w-30"
+                       style="background-color: #FFCB77; color: black; font-weight: 600; border: none; padding: 10px 50px; border-radius: 8px;">
+                        Créer un Groupe</a>
+                </div>
+                {% endif %}
 
+            </div>
         </div>
     </div>
 
-
-</div>
 {% endblock %}
