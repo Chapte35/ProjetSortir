@@ -21,27 +21,16 @@
                     </div>
                 {% endif %}
 
-                <h2 class="text-center title-text mb-4">Connexion</h2>
-
                 <form method="post">
 
-                    <div class="mb-3">
-                        <label for="inputEmail" class="form-label">Email</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
-                                   class="form-control" autocomplete="email" required autofocus>
-                        </div>
-                    </div>
+                    <h1 class="h3 mb-3 font-weight-normal text-center">Connectez-vous</h1>
+                    <label for="inputIdentifier">Email ou Pseudo</label>
+                    <input type="text" value="{{ last_username }}" name="email" id="inputIdentifier"
+                           class="form-control" autocomplete="email" required autofocus>
+                    <label for="inputPassword">Mot de passe</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control"
+                           autocomplete="current-password" required>
 
-                    <div class="mb-3">
-                        <label for="inputPassword" class="form-label">Mot de passe</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                            <input type="password" name="password" id="inputPassword"
-                                   class="form-control" autocomplete="current-password" required>
-                        </div>
-                    </div>
 
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 

@@ -34,6 +34,7 @@ class GroupePriveFixture extends Fixture implements DependentFixtureInterface
             for ($j = 0; $j < $faker->randomDigit(); $j++) {
                 $groupe->addMembre($faker->randomElement($participants));
             }
+            $manager->persist($groupe);
         }
 
         $manager->flush();
