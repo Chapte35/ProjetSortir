@@ -47,6 +47,8 @@ final class SortieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()  && $this->container->get('security.authorization_checker')->isGranted('ROLE_USER')){
 
+                $debut = $sortie->getDateHeureDebut();
+                $cloture = $sortie->getDateLimiteInscription();
 
             if ($form->get('groupe')->getData() && $_POST['action'] == 'publier') {
                 $groupeVide = ($form->get('groupe')->getData());
@@ -58,6 +60,13 @@ final class SortieController extends AbstractController
                     throw $this->createAccessDeniedException("Création de sortie interdite sur mobile.");
                 }
             }
+
+            if ($debut<$cloture){
+                throw $this->createAccessDeniedException("La date de cloture est incorrect !");
+            }
+
+
+
 
             $sortie->setDuree(DateInterval::createFromDateString($form->get('dureeMinutes')->getData()." min"));
             $sortie ->setOrganisateur($this->getUser());
