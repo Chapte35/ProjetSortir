@@ -137,9 +137,12 @@ final class SortieController extends AbstractController
      * @throws NotFoundExceptionInterface
      */
     #[Route('/modifier/{id}', name: 'modifier')]
-    public function update(Sortie $sortie, Request $request, EntityManagerInterface $entityManager, SessionInterface $session, GroupePriveRepository $groupePriveRepository): Response
+    public function update(Sortie $sortie, Request $request, EntityManagerInterface $entityManager, SessionInterface $session, GroupePriveRepository $groupePriveRepository,EtatRepository $etatRepository): Response
     {
         $form = $this->createForm(SortiesType::class, $sortie);
+        $publier = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
+
+
 
         $form->handleRequest($request);
 
@@ -177,7 +180,9 @@ final class SortieController extends AbstractController
 
                 $sortie->setDuree(DateInterval::createFromDateString($form->get('dureeMinutes')->getData()." min"));
                 $sortie ->setOrganisateur($this->getUser());
-                $sortie ->setEstPublie($_POST['action'] == 'publier');
+                if ($_POST['action'] == 'publier') {
+                    $sortie->setEtat($publier);
+                }
 
                 $entityManager -> persist($sortie);
                 $entityManager ->flush();

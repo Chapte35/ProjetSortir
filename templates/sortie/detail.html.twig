@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <h1> Details de sortie : {{ sortie.nom }}</h1>
+    <h1> Sortie : {{ sortie.nom }}</h1>
     {% for message in app.flashes('warning') %}
         <div class="alert alert-warning">
             {{ message }}
@@ -28,13 +28,11 @@
 
 
 
-
-
                 {% else %}
-                    {% if date() < sortie.dateLimiteInscription and sortie.participants|length < sortie.nbInscriptionsMax  %}
+                    {% if date() < sortie.dateLimiteInscription and sortie.participants|length < sortie.nbInscriptionsMax and sortie.estPublie %}
                     <a type="button" href="{{ path('sortie_inscrire', {'id': sortie.id}) }}" class="btn btn-info">S'inscrire</a>
                         {% else %}
-                        <p>Il n'y a plus de places pour cette sortie</p>
+                        <p>Désolé, il n'est pas possible de s'inscrire.</p>
                     {% endif%}
                 {% endif %}
             </div>
