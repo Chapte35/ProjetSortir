@@ -35,8 +35,10 @@ class EtatFixtures extends Fixture
         $manager->persist($annulee);
 
         $annulee = new Etat();
-        $annulee->setLibelle("Archiver");
+        $annulee->setLibelle("Archivée");
         $manager->persist($annulee);
+
+
 
         $manager->flush();
 
