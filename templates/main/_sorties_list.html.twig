@@ -5,6 +5,7 @@
                 <div class="card mb-5">
                     <div class="card-body">
                         <h5 class="card-title text-center">{{ sortie.nom }}</h5>
+                        <p class="card-text">Ville : {{ sortie.lieu.ville.nom }}</p>
                         <p class="card-text">Date de Sortie: {{ sortie.dateHeureDebut | date('d/m/Y H:i:s') }}</p>
                         <p class="card-text">Clôture : {{ sortie.dateLimiteInscription | date('d/m/Y H:i:s') }}</p>
                         {% if app.user in sortie.participants %}
