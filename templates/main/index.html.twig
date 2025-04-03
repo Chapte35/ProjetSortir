@@ -103,12 +103,12 @@
 
     }
 </style>
-    <br>
-    <h1>Sorties</h1>
+
     <div class="p-5">
         <div class="row">
-
-    <div class="card container m-3 filter-card">
+            <br>
+            <h1>Sorties</h1>
+    <div class="card container filter-card">
         <div style="
             display: flex;
             flex-direction: column;
@@ -119,8 +119,8 @@
         </div>
         {{ form_errors(form) }}
         {{ form_start(form, {'attr': {'id': 'filter-form'}}) }}
-        <div style="display: flex; flex-direction: row; width: 100%">
-            <div style="width: 45vw" class="m-3 ">
+        <div class=" w-100 row mt-3">
+            <div class="col" style="min-width: 40vw">
                 <div class="m-2">
                     {{ form_row(form.site, {'attr': {'class': 'form-control'}}) }}
                 </div>
@@ -129,32 +129,28 @@
                 </div>
 
             </div>
-            <div style="width: 45vw" class="m-3">
-
+            <div class="col" style="min-width: 40vw">
                 <div class="m-2 mt-1">
                     {{ form_row(form.dateHeureDebut) }}
                 </div>
                 <div class="m-2 mt-1">
                     {{ form_row(form.dateHeureFin) }}
                 </div>
-
-
             </div>
-        </div>
-        <div style="display: flex; flex-direction: row; width: 100%">
-            <div class="w-50">
-                <div class="m-5 w-100">
+            <div class="w-100"></div>
+            <div class="col" style="min-width: 40vw">
+                <div class="w-100">
                     {{ form_row(form.moiOrganisateur) }}
                 </div>
-                <div class="m-5 w-100">
+                <div class="w-100">
                     {{ form_row(form.moiInscrit) }}
                 </div>
             </div>
-            <div class="w-50">
-                <div class="m-5 w-100">
+            <div class="col" style="min-width: 40vw">
+                <div class="w-100">
                     {{ form_row(form.moiPasInscrit) }}
                 </div>
-                <div class="m-5 w-100">
+                <div class="w-100">
                     {{ form_row(form.sortiesPassees) }}
                 </div>
             </div>

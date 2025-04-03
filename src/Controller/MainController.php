@@ -27,7 +27,7 @@ final class MainController extends AbstractController
     {
 
 
-        $sorties = $sortieRepository->findAll();
+        $sorties = $sortieRepository->findAllJoin();
         $stateHandler->handleStates($sorties);
 
 
