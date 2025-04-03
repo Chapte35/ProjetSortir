@@ -153,7 +153,7 @@ class SortieRepository extends ServiceEntityRepository
         }
 
         $filterBuiler
-            ->andWhere('e.libelle NOT LIKE :excludedStates')
+            ->andWhere('etat.libelle NOT LIKE :excludedStates')
             ->setParameter('excludedStates', 'Archivée');
 
 
