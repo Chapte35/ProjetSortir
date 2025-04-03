@@ -56,8 +56,6 @@ class SortieRepository extends ServiceEntityRepository
         $builder = $this->em
             ->getRepository(Sortie::class)
             ->createQueryBuilder('sortie')
-            ->andWhere('sortie.dateHeureDebut NOT BETWEEN :threeYearsBefore AND :now ')
-            ->setParameter('threeYearsBefore', (new \DateTime())->sub(new \DateInterval('P3Y')))
             ->setParameter('now', new \DateTime());
 
         return $builder->getQuery()->getResult();
@@ -69,7 +67,8 @@ class SortieRepository extends ServiceEntityRepository
 
         $filterBuiler = $this->em
             ->getRepository(Sortie::class)
-            ->createQueryBuilder('sortie');
+            ->createQueryBuilder('sortie')
+            ->join('sortie.etat', 'e');
 
         $nom = $filters->getData()['nom'];
         $site = $filters->getData()['site'];
@@ -113,14 +112,18 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter("user", $user);
         }
         if ($sortiesPassees) {
-            $filterBuiler->andWhere('sortie.dateHeureDebut BETWEEN :oneMonthAgo AND :now ')
-                ->setParameter('oneMonthAgo', (new \DateTime())->sub(new \DateInterval('P3Y')))
+            $filterBuiler->andWhere('sortie.dateHeureDebut BETWEEN :threeYearsAgo AND :now ')
+                ->setParameter('threeYearsAgo', (new \DateTime())->sub(new \DateInterval('P3Y')))
                 ->setParameter('now', new \DateTime());
         } else {
-            $filterBuiler->andWhere('sortie.dateHeureDebut NOT BETWEEN :oneMonthAgo AND :now ')
-                ->setParameter('oneMonthAgo', (new \DateTime())->sub(new \DateInterval('P3Y')))
+            $filterBuiler->andWhere('sortie.dateHeureDebut NOT BETWEEN :threeYearsAgo AND :now ')
+                ->setParameter('threeYearsAgo', (new \DateTime())->sub(new \DateInterval('P3Y')))
                 ->setParameter('now', new \DateTime());
         }
+
+        $filterBuiler
+            ->andWhere('e.libelle NOT LIKE :excludedStates')
+            ->setParameter('excludedStates', 'Archivée');
 
 
 //        dd($filterBuiler->getQuery()->getResult());
@@ -138,6 +141,10 @@ class SortieRepository extends ServiceEntityRepository
             ->join('s.etat', 'e')
             ->where('e.libelle NOT IN (:excludedStates)')
             ->setParameter('excludedStates', ['Archivée'])
+            ->andWhere('s.dateHeureDebut NOT BETWEEN :threeYearsBefore AND :now ')
+            ->setParameter('threeYearsBefore', (new \DateTime())->sub(new \DateInterval('P3Y')))
+            ->setParameter('now', new \DateTime())
+            ->orderBy('s.dateHeureDebut', 'ASC')
             ->getQuery()
             ->getResult();
     }
