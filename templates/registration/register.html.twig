@@ -3,21 +3,50 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <div class="container card mt-3 flex mb-3">
-    <h1>Inscription</h1>
+    <div class="container py-4">
+        <div class="card" style="background: #f8f4f0; border-radius: 15px; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);">
+            <div class="card-body">
+                <div class="d-flex justify-content-center mb-4">
+                    <h1 class="mb-0 position-relative" style="color: #444; padding-bottom: 12px;">
+                        Inscription
+                        <span class="position-absolute" style="bottom: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 3px; background: #96CEB4; border-radius: 3px;"></span>
+                    </h1>
+                </div>
+                <br>
 
-    {{ form_errors(registrationForm) }}
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.pseudo) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Mot de passe'
-        }) }}
-        {{ form_row(registrationForm.plainPasswordVerif, {
-            label: 'Confirmation'
-        }) }}
-        {{ form_widget(registrationForm) }}
-        <button type="submit" class="btn btn-success w-100 mb-3">S'inscrire</button>
-    {{ form_end(registrationForm) }}
+                        {{ form_start(registrationForm) }}
+                        <div class="mb-3">
+                            {{ form_row(registrationForm.pseudo) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(registrationForm.plainPassword, {
+                                label: 'Mot de passe'
+                            }) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(registrationForm.plainPasswordVerif, {
+                                label: 'Confirmation'
+                            }) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_widget(registrationForm) }}
+                        </div>
+
+                        <div class="d-flex justify-content-center mt-4">
+                            <button type="submit" class="btn justify-content-center w-50"
+                                    style="background-color: #96CEB4; color: black; font-weight: 600; border: none; padding: 10px 30px; border-radius: 8px;">
+                                Inscription
+                            </button>
+                        </div>
+                        {{ form_end(registrationForm) }}
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

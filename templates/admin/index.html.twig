@@ -4,23 +4,21 @@
 
 {% block body %}
     <div class="container mt-5">
-
         <h1 class="text-center mb-4">DASHBOARD ADMIN</h1>
-
 
         <div class="card shadow-sm mb-4">
             <div class="card-body">
                 <h3 class="card-title text-primary">Fonctionnalités d'admin</h3>
-                <h5 class="card-subtitle text-muted mb-3 align ">Inscription par CSV</h5>
+                <br>
+                <br>
 
-                <div class="d-flex justify-content-between gap-3">
-                    <a class="btn btn-primary " href="{{ path('admin_admin_upload') }}">CSV Uploader</a>
-                    <a class="btn btn-secondary" href="{{ path('app_registerapp_register') }}">Création des utilisateurs</a>
-                    <a class="btn btn-secondary" href="{{ path('admin_app_admin_userlist') }}">Gérer les utilistateur</a>
-                    <a class="btn btn-secondary" href="{{ path('admin_app_admin_sortie') }}">Gérer les Sorties</a>
+                <div class="d-flex justify-content-center flex-column align-items-center gap-2">
+                    <a class="btn" href="{{ path('admin_admin_upload') }}" style="background-color: #5AB9EA; color: black; font-weight: 600; border: none; width: 50%; padding: 8px; border-radius: 8px;">CSV Uploader</a>
+                    <a class="btn" href="{{ path('app_registerapp_register') }}" style="background-color: #F7A072; color: black; font-weight: 600; border: none; width: 50%; padding: 8px; border-radius: 8px;">Création des utilisateurs</a>
+                    <a class="btn" href="{{ path('admin_app_admin_userlist') }}" style="background-color: #FFCB77; color: black; font-weight: 600; border: none; width: 50%; padding: 8px; border-radius: 8px;">Gérer les utilisateurs</a>
+                    <a class="btn" href="{{ path('admin_app_admin_sortie') }}" style="background-color: #96CEB4; color: black; font-weight: 600; border: none; width: 50%; padding: 8px; border-radius: 8px;">Gérer les Sorties</a>
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
-

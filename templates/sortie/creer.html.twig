@@ -1,17 +1,27 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div class="container card mt-3 flex mb-3">
-        <h1>Sortie</h1>
+    <div class="container py-4">
+        <div class="card" style="background: #f8f4f0; border-radius: 15px; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);">
+            <div class="card-body">
+                <div class="d-flex justify-content-center mb-4">
+                    <h3 class="mb-0 position-relative" style="color: #444; padding-bottom: 12px;">
+                        Sortie
+                        <span class="position-absolute" style="bottom: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background: #96CEB4; border-radius: 3px;"></span>
+                    </h3>
+                </div>
 
-        {{ form_errors(form) }}
-
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <div>
-        <button type="submit" class="btn btn-secondary w-100 mb-3" name="action" value="enregistrer">Enregistrer</button>
-        <button type="submit" class="btn btn-success w-100 mb-3" name="action" value="publier">Publier la sortie</button>
-        <a type="submit" class="btn btn-warning w-100 mb-3" href="{{ path('app_main') }}">Annuler</a>
+                {{ form_errors(form) }}
+                {{ form_start(form) }}
+                <div class="col-md-12">
+                    {{ form_widget(form) }}
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mb-5 flex-column align-items-center">
+                <button type="submit" class="btn" style="background-color: #5AB9EA; color: black; font-weight: 600; border: none; width: 50%; padding: 8px; border-radius: 8px;" name="action" value="enregistrer">Enregistrer</button>
+                <button type="submit" class="btn mt-1" style="background-color: #F7A072; color: black; font-weight: 600; border: none; width: 50%; padding: 8px; border-radius: 8px;" name="action" value="publier">Publier la sortie</button>
+                <a class="btn mt-1" href="{{ path('app_main') }}" style="background-color: #FFCB77; color: black; font-weight: 600; border: none; width: 50%; padding: 8px; border-radius: 8px;">Annuler</a>
+            </div>
+                {{ form_end(form) }}
+            </div>
         </div>
-        {{ form_end(form) }}
-    </div>
 {% endblock %}

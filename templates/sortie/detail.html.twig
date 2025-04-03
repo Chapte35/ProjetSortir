@@ -12,6 +12,8 @@
         <div class="col-12 col-md-8 col-lg-6 border border-black p-3 rounded-5 shadow p-3 mb-5 bg-body-tertiary rounded d-flex justify-content-between">
 
             <div>
+                <p>Ville : {{ sortie.lieu.ville.nom }}</p>
+                <p>Adresse : {{ sortie.lieu.nom}}</p>
                 <p>Date de Sortie: {{ sortie.dateHeureDebut | date('d/m/Y H:i:s') }}</p>
                 <p>Clôture : {{ sortie.dateLimiteInscription | date('d/m/Y H:i:s') }}</p>
 

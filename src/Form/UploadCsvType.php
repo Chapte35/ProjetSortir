@@ -20,7 +20,7 @@ class UploadCsvType extends AbstractType
                 'mapped' => false,
             ])
             ->add('password', PasswordType::class, [
-                'label' => 'Mot de pass',
+                'label' => 'Mot de passe',
                 'mapped' => false,
             ])
             ->add('site', ChoiceType::class, [
