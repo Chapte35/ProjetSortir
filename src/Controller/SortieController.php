@@ -37,6 +37,9 @@ final class SortieController extends AbstractController
         $sortie = new Sortie();
         $form = $this->createForm(SortiesType::class, $sortie);
 
+        $publier = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
+        $creer = $etatRepository->findOneBy(['libelle' => 'Créée']);
+
 
 
         $form->handleRequest($request);
@@ -64,7 +67,15 @@ final class SortieController extends AbstractController
 //            $sortie->addParticipant($user);
             $sortie->setDuree(DateInterval::createFromDateString($form->get('dureeMinutes')->getData()." min"));
             $sortie ->setOrganisateur($this->getUser());
-            $sortie -> setEtat($etatRepository->find(1));
+            if ($_POST['action'] == 'publier' && $this->getUser()){
+                $sortie -> setEtat($publier);
+                $sortie->addParticipant($this->getUser());
+            }else{
+                $sortie -> setEtat($creer);
+            }
+
+
+
             $sortie ->setEstPublie($_POST['action'] == 'publier');
             if ($debut<$cloture){
                 throw $this->createAccessDeniedException("La date de cloture est incorrect !");
@@ -159,7 +170,7 @@ final class SortieController extends AbstractController
                 $form->addError(new FormError("Vous ne pouvez modifier que les sorties que vous avez crées"));
             }
             //Check si le mec modifie bien une sortie pas publiée
-            if ($sortie->getEtat()->getLibelle() != 'Ouverte'){
+            if ($sortie->getEtat()->getLibelle() != 'Créée'){
                 $form->addError(new FormError("Vous ne pouvez modifier que les sorties non publiées"));
             }
 
@@ -180,8 +191,9 @@ final class SortieController extends AbstractController
 
                 $sortie->setDuree(DateInterval::createFromDateString($form->get('dureeMinutes')->getData()." min"));
                 $sortie ->setOrganisateur($this->getUser());
-                if ($_POST['action'] == 'publier') {
+                if ($this->getUser() && $_POST['action'] == 'publier') {
                     $sortie->setEtat($publier);
+                    $sortie->addParticipant($this->getUser());
                 }
 
                 $entityManager -> persist($sortie);

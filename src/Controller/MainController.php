@@ -26,8 +26,8 @@ final class MainController extends AbstractController
     ): Response
     {
 
-    
 
+        $sorties = $sortieRepository->findAll();
         $stateHandler->handleStates($sorties);
 
 
@@ -50,6 +50,7 @@ final class MainController extends AbstractController
             $sorties = $sortieRepository->rechercheSorties($filterForm, $this->getUser());
         }else{
             $sorties = $sortieRepository->findActiveSorties();
+
         }
 
         if ($request->isXmlHttpRequest()) {

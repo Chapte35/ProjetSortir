@@ -22,21 +22,21 @@
                     {% elseif sortie.Etat.libelle == "Archivée" %}
                         <p class="alert alert-dark w-100" role="alert">Sortie Archivée</p>
                     {% elseif sortie.Etat.libelle == "Créée" %}
-                        <p class="alert alert-secondary w-100" role="alert">Sortie Publier/Modifier</p>
+                        <p class="alert alert-secondary w-100" role="alert">Sortie Créée</p>
                     {% endif %}
                     <p class="card-text">Organisateur : {{ sortie.organisateur.nom }}</p>
                     <div class="w-100 container">
                         <a href="{{ path('sortie_detail', {'id': sortie.id}) }}" class="btn btn-outline-info w-100 m-1"
                            style="--mdb-btn-outline-border-color:#96CEB4 ;--mdb-btn-color:#619881;--mdb-btn-hover-bg:#e2f1e5 ;--mdb-btn-hover-color: #619881;--mdb-btn-outline-hover-border-color:#619881;--mdb-btn-outline-focus-border-color:#619881;--mdb-btn-active-color: #619881">Afficher</a>
                         {% if app.user == sortie.organisateur and sortie.etat %}
-                            {% if sortie.Etat.libelle != "Publiée" and "Sortie annulée" not in sortie.infosSortie %}
+                            {% if sortie.Etat.libelle == "Créée" and "Sortie annulée" not in sortie.infosSortie %}
                                 <a href="{{ path('sortie_modifier', {'id': sortie.id}) }}"
                                    class="btn btn-outline-success w-100 m-1">Publier</a>
 
                             {% endif %}
-                            {% if sortie.Etat.libelle == "Publiée" and "Sortie annulée" not in sortie.infosSortie %}
+                            {% if sortie.Etat.libelle == "Ouverte" and "Sortie annulée" not in sortie.infosSortie %}
                                 <a href="{{ path('sortie_modifier', {'id': sortie.id}) }}"
-                                   class="btn btn-outline-dark w-100 m-1">Modifier</a>
+                                   class="btn btn-outline-dark w-100 m-1">Annuler</a>
                             {% endif %}
                         {% endif %}
                     </div>
