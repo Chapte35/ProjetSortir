@@ -48,6 +48,23 @@ class SortieRepository extends ServiceEntityRepository
     //        ;
     //    }
 
+
+    public function findAllJoin()
+    {
+        $builder = $this->em
+            ->getRepository(Sortie::class)
+            ->createQueryBuilder('s')
+            ->addSelect(['site', 'org', 'part', 'etat'])
+            ->leftJoin('s.site', 'site')
+            ->leftJoin('s.organisateur', 'org')
+            ->leftJoin('s.participants', 'part')
+            ->leftJoin('s.etat', 'etat')
+            ->orderBy('s.dateHeureDebut', 'ASC');
+
+        return $builder->getQuery()->getResult();
+    }
+
+
     /**
      * @throws \DateInvalidOperationException
      */
@@ -56,6 +73,11 @@ class SortieRepository extends ServiceEntityRepository
         $builder = $this->em
             ->getRepository(Sortie::class)
             ->createQueryBuilder('sortie')
+            ->addSelect(['site', 'org', 'part', 'etat'])
+            ->leftJoin('sortie.site', 'site')
+            ->leftJoin('sortie.organisateur', 'org')
+            ->leftJoin('sortie.participants', 'part')
+            ->leftJoin('sortie.etat', 'etat')
             ->andWhere('sortie.dateHeureDebut NOT BETWEEN :threeYearsBefore AND :now ')
             ->setParameter('threeYearsBefore',(new \DateTime())->sub(new \DateInterval('P3Y')))
             ->setParameter('now',new \DateTime())
@@ -72,7 +94,11 @@ class SortieRepository extends ServiceEntityRepository
         $filterBuiler = $this->em
             ->getRepository(Sortie::class)
             ->createQueryBuilder('sortie')
-            ->join('sortie.etat', 'e');
+            ->addSelect(['site', 'org', 'part', 'etat'])
+            ->leftJoin('sortie.site', 'site')
+            ->leftJoin('sortie.organisateur', 'org')
+            ->leftJoin('sortie.participants', 'part')
+            ->leftJoin('sortie.etat', 'etat');
 
         $nom = $filters->getData()['nom'];
         $site = $filters->getData()['site'];
@@ -140,8 +166,12 @@ class SortieRepository extends ServiceEntityRepository
     public function findActiveSorties()
     {
         return $this->createQueryBuilder('s')
-            ->join('s.etat', 'e')
-            ->where('e.libelle NOT IN (:excludedStates)')
+            ->addSelect(['site', 'org', 'part', 'etat'])
+            ->leftJoin('s.site', 'site')
+            ->leftJoin('s.organisateur', 'org')
+            ->leftJoin('s.participants', 'part')
+            ->leftJoin('s.etat', 'etat')
+            ->where('etat.libelle NOT IN (:excludedStates)')
             ->setParameter('excludedStates', ['Archivée'])
             ->andWhere('s.dateHeureDebut NOT BETWEEN :threeYearsBefore AND :now ')
             ->setParameter('threeYearsBefore', (new \DateTime())->sub(new \DateInterval('P3Y')))
