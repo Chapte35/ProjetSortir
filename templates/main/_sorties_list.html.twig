@@ -1,51 +1,53 @@
+{% if sorties is defined and sorties|length > 0 %}
+    {% for sortie in sorties %}
+        {% if sortie.Etat.libelle != "Créée" or app.user == sortie.organisateur %}
+        <div class="col">
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">{{ sortie.nom }}</h5>
+                    <p class="card-text">Date de Sortie: {{ sortie.dateHeureDebut | date('d/m/Y H:i:s') }}</p>
+                    <p class="card-text">Clôture : {{ sortie.dateLimiteInscription | date('d/m/Y H:i:s') }}</p>
+                    {% if app.user in sortie.participants and "Sortie annulée" not in sortie.infosSortie %}
+                        <p class="alert alert-primary w-100" role="alert">Vous êtes inscrit a cette sortie</p>
+                    {% elseif sortie.Etat.libelle == "Annulée" %}
+                        <p class="alert alert-danger w-100" role="alert">Sortie annulée</p>
+                    {% elseif sortie.Etat.libelle == "Activite en Cours" %}
+                        <p class="alert alert-success w-100" role="alert">Sortie En Cours</p>
+                    {% elseif sortie.Etat.libelle == "Ouverte" %}
+                        <p class="alert alert-info w-100" role="alert">Sortie Ouverte</p>
+                    {% elseif sortie.Etat.libelle == "Cloturée" %}
+                        <p class="alert alert-warning w-100" role="alert">Sortie Cloturée</p>
+                    {% elseif sortie.Etat.libelle == "Passée" %}
+                        <p class="alert alert-light w-100" role="alert">Sortie Passée</p>
+                    {% elseif sortie.Etat.libelle == "Archivée" %}
+                        <p class="alert alert-dark w-100" role="alert">Sortie Archivée</p>
+                    {% elseif sortie.Etat.libelle == "Créée" %}
+                        <p class="alert alert-secondary w-100" role="alert">Sortie Créée</p>
+                    {% endif %}
+                    <p class="card-text">Organisateur : {{ sortie.organisateur.nom }}</p>
+                    <div class="w-100 container">
+                        <a href="{{ path('sortie_detail', {'id': sortie.id}) }}" class="btn btn-outline-info w-100 m-1"
+                           style="--mdb-btn-outline-border-color:#96CEB4 ;--mdb-btn-color:#619881;--mdb-btn-hover-bg:#e2f1e5 ;--mdb-btn-hover-color: #619881;--mdb-btn-outline-hover-border-color:#619881;--mdb-btn-outline-focus-border-color:#619881;--mdb-btn-active-color: #619881">Afficher</a>
+                        {% if app.user == sortie.organisateur and sortie.etat %}
+                            {% if sortie.Etat.libelle != "Publiée" and "Sortie annulée" not in sortie.infosSortie %}
+                                <a href="{{ path('sortie_modifier', {'id': sortie.id}) }}"
+                                   class="btn btn-outline-success w-100 m-1">Publier</a>
 
-    {% if sorties is defined and sorties|length > 0 %}
-        {% for sortie in sorties %}
-            <div class="col">
-                <div class="card mb-5">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">{{ sortie.nom }}</h5>
-                        <p class="card-text">Ville : {{ sortie.lieu.ville.nom }}</p>
-                        <p class="card-text">Date de Sortie: {{ sortie.dateHeureDebut | date('d/m/Y H:i:s') }}</p>
-                        <p class="card-text">Clôture : {{ sortie.dateLimiteInscription | date('d/m/Y H:i:s') }}</p>
-                        {% if app.user in sortie.participants and "Sortie annulée" not in sortie.infosSortie %}
-
-                            <p class="alert alert-primary w-100" role="alert">Vous êtes inscrit a cette sortie</p>
-                        {% elseif sortie.Etat.libelle == "Annulée" %}
-                            <p class="alert alert-danger w-100" role="alert">Sortie annulée</p>
-                        {% elseif sortie.Etat.libelle == "Activite en Cours" %}
-                            <p class="alert alert-success w-100" role="alert">Sortie En Cours</p>
-                        {% elseif sortie.Etat.libelle == "Ouverte" %}
-                            <p class="alert alert-info w-100" role="alert">Sortie Ouverte</p>
-                        {% elseif sortie.Etat.libelle == "Cloturée" %}
-                            <p class="alert alert-warning w-100" role="alert">Sortie Cloturée</p>
-                        {% elseif sortie.Etat.libelle == "Passée" %}
-                            <p class="alert alert-light w-100" role="alert">Sortie Passée</p>
-                        {% elseif sortie.Etat.libelle == "Archivée" %}
-                            <p class="alert alert-dark w-100" role="alert">Sortie Archivée</p>
-                        {% elseif sortie.Etat.libelle == "Créée" %}
-                            <p class="alert alert-secondary w-100" role="alert">Sortie Créée</p>
-                        {% endif %}
-                        <p class="card-text">Organisateur : {{ sortie.organisateur.nom }}</p>
-                            <div class="w-100 container">
-                                <a href="{{ path('sortie_detail', {'id': sortie.id}) }}" class="btn btn-outline-info w-100 m-1"  style="--mdb-btn-outline-border-color:#96CEB4 ;--mdb-btn-color:#619881;--mdb-btn-hover-bg:#e2f1e5 ;--mdb-btn-hover-color: #619881;--mdb-btn-outline-hover-border-color:#619881;--mdb-btn-outline-focus-border-color:#619881;--mdb-btn-active-color: #619881">Afficher</a>
-                            {% if app.user == sortie.organisateur and sortie.etat%}
-                                {% if sortie.Etat.libelle != "Publiée" and "Sortie annulée" not in sortie.infosSortie %}
-                                <a href="{{ path('sortie_modifier', {'id': sortie.id}) }}" class="btn btn-outline-success w-100 m-1">Publier</a>
-                                {% endif %}
-                                {% if sortie.Etat.libelle == "Publiée" and "Sortie annulée" not in sortie.infosSortie %}
-                                <a href="{{ path('sortie_modifier', {'id': sortie.id}) }}" class="btn btn-outline-dark w-100 m-1">Modifier</a>
-                                {% endif %}
                             {% endif %}
-                            </div>
-
+                            {% if sortie.Etat.libelle == "Publiée" and "Sortie annulée" not in sortie.infosSortie %}
+                                <a href="{{ path('sortie_modifier', {'id': sortie.id}) }}"
+                                   class="btn btn-outline-dark w-100 m-1">Modifier</a>
+                            {% endif %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
-        {% endfor %}
-    {% else %}
-        <p>Aucune sortie trouvée.</p>
-    {% endif %}
+        </div>
+        {% endif %}
+    {% endfor %}
+{% else %}
+    <p>Aucune sortie trouvée.</p>
+{% endif %}
 
 
 

@@ -47,6 +47,8 @@ final class SortieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()  && $this->container->get('security.authorization_checker')->isGranted('ROLE_USER')){
 
+            $debut = $sortie->getDateHeureDebut();
+            $cloture = $sortie->getDateLimiteInscription();
 
             if ($form->get('groupe')->getData() && $_POST['action'] == 'publier') {
                 $groupeVide = ($form->get('groupe')->getData());
@@ -59,10 +61,14 @@ final class SortieController extends AbstractController
                 }
             }
 
+//            $sortie->addParticipant($user);
             $sortie->setDuree(DateInterval::createFromDateString($form->get('dureeMinutes')->getData()." min"));
             $sortie ->setOrganisateur($this->getUser());
             $sortie -> setEtat($etatRepository->find(1));
             $sortie ->setEstPublie($_POST['action'] == 'publier');
+            if ($debut<$cloture){
+                throw $this->createAccessDeniedException("La date de cloture est incorrect !");
+            }
 
             $entityManager -> persist($sortie);
             $entityManager ->flush();
@@ -83,28 +89,23 @@ final class SortieController extends AbstractController
 
     #[Route('/inscrire/{id}', name: 'inscrire')]
     public function inscrire(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository, Sortie $sortie): Response{
+        $etat = $sortie->getEtat()->getLibelle();
+        $nbInsriptions = count($sortie->getParticipants());
+        $nbInsriptionsMax = $sortie->getNbInscriptionsMax();
 
-        $publier = $sortie -> isEstPublie();
-        $date = $sortie->getDateLimiteInscription();
-        $nbInsriptions = $sortie->getNbInscriptionsMax();
 
 
-        if (!$publier){
+
+        if ($etat != 'Ouverte'){
             $this->addFlash("warning","La sortie n'est pas publiée !");
         }
-        if (!$date > new \DateTime()){
-            $this->addFlash("warning","La sortie est cloturée !");
-        }
-        if (!$nbInsriptions < 0){
+
+        if ($nbInsriptions >= $nbInsriptionsMax){
             $this->addFlash("warning","Ya pu d'place !");
         }
 
 
-        if($publier &&
-            $date > new \DateTime() &&
-            $nbInsriptions > 0){
-
-
+        if($etat == 'Ouverte'){
 
             $sortie->addParticipant($this->getUser());
 
@@ -137,9 +138,11 @@ final class SortieController extends AbstractController
      * @throws NotFoundExceptionInterface
      */
     #[Route('/modifier/{id}', name: 'modifier')]
-    public function update(Sortie $sortie, Request $request, EntityManagerInterface $entityManager, SessionInterface $session, GroupePriveRepository $groupePriveRepository): Response
+    public function update(Sortie $sortie, Request $request, EntityManagerInterface $entityManager, SessionInterface $session, GroupePriveRepository $groupePriveRepository,EtatRepository $etatRepository): Response
     {
         $form = $this->createForm(SortiesType::class, $sortie);
+        $publier = $etatRepository->findOneBy(['libelle' => 'Ouverte']);
+
 
         $form->handleRequest($request);
 
@@ -156,7 +159,7 @@ final class SortieController extends AbstractController
                 $form->addError(new FormError("Vous ne pouvez modifier que les sorties que vous avez crées"));
             }
             //Check si le mec modifie bien une sortie pas publiée
-            if ($sortie->isEstPublie()){
+            if ($sortie->getEtat()->getLibelle() != 'Ouverte'){
                 $form->addError(new FormError("Vous ne pouvez modifier que les sorties non publiées"));
             }
 
@@ -177,7 +180,9 @@ final class SortieController extends AbstractController
 
                 $sortie->setDuree(DateInterval::createFromDateString($form->get('dureeMinutes')->getData()." min"));
                 $sortie ->setOrganisateur($this->getUser());
-                $sortie ->setEstPublie($_POST['action'] == 'publier');
+                if ($_POST['action'] == 'publier') {
+                    $sortie->setEtat($publier);
+                }
 
                 $entityManager -> persist($sortie);
                 $entityManager ->flush();
@@ -207,7 +212,7 @@ final class SortieController extends AbstractController
     #[Route('/submit-justification/{id}', name: 'submit_justification', methods: ['POST'])]
     public function submitJustification(EtatRepository $etatRepository,Sortie $sortie, Request $request, SessionInterface $session, AnnulerSortieService $annulerSortieService, ParticipantRepository $participantRepository): Response
     {
-        $etats = $etatRepository->findAll();
+
         $form = $this->createForm(JustificationFormType::class);
         $form->handleRequest($request);
 
@@ -226,6 +231,7 @@ final class SortieController extends AbstractController
             if ($this->getUser()){
 //              ASSIGNER UN ETEAT ANULLE ICI
                 $annulerSortieService->annulerSortie($sortie->getId(),$justification,$this->getUser());
+
             }
 
             if (new DateTime() > $sortie->getDateHeureDebut()) {
@@ -236,36 +242,34 @@ final class SortieController extends AbstractController
                 ], Response::HTTP_BAD_REQUEST);
             }
 
+
             return $this->json([
                 'success' => true,
                 'message' => 'Justification enregistrée avec succès'
+
             ]);
+
+
         }
+
 
         return $this->json([
             'success' => false,
             'errors' => $form->getErrors(true)
         ], Response::HTTP_BAD_REQUEST);
+
+
     }
 
     #[Route('/desister/{id}', name: 'app_sortie_sedesister')]
-    public function seDesister(Sortie $sortie, Request $request, EntityManagerInterface $entityManager): Response
+    public function seDesister(Sortie $sortie, Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
     {
-
-        $date = $sortie->getDateHeureDebut()->sub(new DateInterval('PT1H'));
-        $now = new \DateTimeImmutable();
-//        dd([$date->getTimezone(),$now->getTimezone()]);
-
-
-
-
-        if($date < $now ){
+        if($sortie->getEtat()->getLibelle() == 'Cloturée' ){
             $this->addFlash('warning', 'La Sortie a déjà commencé');
             return $this->redirectToRoute('sortie_detail', ['id' => $sortie->getId()]);
         }
 
-        if($date >$now){
-
+        if($sortie->getEtat()->getLibelle() == 'Ouverte'){
             $sortie->removeParticipant($this->getUser());
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -288,9 +292,6 @@ final class SortieController extends AbstractController
         return $this->redirectToRoute('app_main');
 
     }
-
-
-
 
     public function modalAction(): Response
     {

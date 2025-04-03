@@ -24,4 +24,19 @@
                 {{ form_end(form) }}
             </div>
         </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let today = new Date().toISOString().split('T')[0] + "T00:00";
+
+
+            let dateHeureDebut = document.getElementById('sorties_dateHeureDebut');
+            let dateLimiteInscription = document.getElementById('sorties_dateLimiteInscription');
+
+            if (dateHeureDebut && dateLimiteInscription) {
+                dateHeureDebut.setAttribute('min', today);
+                dateLimiteInscription.setAttribute('min', today);
+            }
+        });
+    </script>
 {% endblock %}
