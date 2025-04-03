@@ -46,6 +46,10 @@ final class SortieController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()  && $this->container->get('security.authorization_checker')->isGranted('ROLE_USER')){
+
+            $debut = $sortie->getDateHeureDebut();
+            $cloture = $sortie->getDateLimiteInscription();
+
             if ($form->get('groupe')->getData() && $_POST['action'] == 'publier') {
                 $groupeVide = ($form->get('groupe')->getData());
                 $groupe = $groupePriveRepository->find($groupeVide->getId());
@@ -62,6 +66,9 @@ final class SortieController extends AbstractController
             $sortie ->setOrganisateur($this->getUser());
             $sortie -> setEtat($etatRepository->find(1));
             $sortie ->setEstPublie($_POST['action'] == 'publier');
+            if ($debut<$cloture){
+                throw $this->createAccessDeniedException("La date de cloture est incorrect !");
+            }
 
             $entityManager -> persist($sortie);
             $entityManager ->flush();
