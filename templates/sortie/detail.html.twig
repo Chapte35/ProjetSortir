@@ -9,9 +9,9 @@
         </div>
     {% endfor %}
     <div class="d-flex justify-content-center mt-10">
-        <div class="col-12 col-md-8 col-lg-6 border border-black p-3 rounded-5 shadow p-3 mb-5 bg-body-tertiary rounded d-flex justify-content-between">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 border border-black p-3 rounded-5 shadow p-3 mb-5 bg-body-tertiary rounded d-flex justify-content-between">
 
-            <div>
+            <div class="d-flex flex-column">
                 <p>Ville : {{ sortie.lieu.ville.nom }}</p>
                 <p>Adresse : {{ sortie.lieu.nom}}</p>
                 <p>Date de Sortie: {{ sortie.dateHeureDebut | date('d/m/Y H:i:s') }}</p>
@@ -42,16 +42,16 @@
                     {% endif%}
                 {% endif %}
             </div>
-            <div>
-                <h4 class="card-title">Infos Sortie : </h4>
-                <p class="card-text mt-2">{{ sortie.infosSortie }}</p>
+            <div class="mt-4">
+                <h4 class="card-title text-center">Infos Sortie : </h4>
+                <p class="card-text mt-2 text-center">{{ sortie.infosSortie }}</p>
             </div>
             {% if app.user %}
-            <div style="overflow-y: auto; max-height: 40vh;overflow-x: hidden;padding-left: 5vw">
-                <strong><p class="p-3">Liste des Participants:</p></strong>
-                <div class="d-flex flex-column w-100 row row-cols-1 row-cols-sm-2 row-cols-md-3">
+            <div class="mt-2" style="overflow-y: auto; max-height: 40vh;overflow-x: hidden;padding-left: 5vw">
+                <strong><p class="p-3 text-center">Liste des Participants:</p></strong>
+                <div class="d-flex flex-column w-100 row row-cols-1 row-cols-sm-2 row-cols-md-3 p-1">
                     {% for participant in sortie.participants %}
-                        <a class="ps-3 btn btn-outline-light w-75 m-1" style="background: #96CEB4"
+                        <a class="ps-3 btn btn-outline-light w-100 m-1" style="background: #96CEB4"
                            href="{{ path('app_profil_participant', {'id': participant.id}) }}">{{ participant.prenom }} {{ participant.nom }}</a>
                     {% endfor %}
                 </div>
