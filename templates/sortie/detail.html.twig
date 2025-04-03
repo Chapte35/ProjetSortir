@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <h1> Details de sortie : {{ sortie.nom }}</h1>
+    <h1 class="text-center title-text mt-2"> Details de sortie : {{ sortie.nom }}</h1>
     {% for message in app.flashes('warning') %}
         <div class="alert alert-warning">
             {{ message }}
@@ -33,20 +33,29 @@
 
 
                 {% else %}
-                    {% if date() < sortie.dateLimiteInscription and sortie.participants|length < sortie.nbInscriptionsMax  %}
-                    <a type="button" href="{{ path('sortie_inscrire', {'id': sortie.id}) }}" class="btn btn-info">S'inscrire</a>
-                        {% else %}
+                    {% if date() < sortie.dateLimiteInscription and sortie.participants|length < sortie.nbInscriptionsMax%}
+                        {% if app.user %}
+                        <a style="background: #96CEB4" type="button" href="{{ path('sortie_inscrire', {'id': sortie.id}) }}" class="btn btn-info">S'inscrire</a>
+                        {% endif %}
+                    {% else %}
                         <p>Il n'y a plus de places pour cette sortie</p>
                     {% endif%}
                 {% endif %}
             </div>
+            <div>
+                <h4 class="card-title">Infos Sortie : </h4>
+                <p class="card-text mt-2">{{ sortie.infosSortie }}</p>
+            </div>
             {% if app.user %}
-            <div class="border border-dark rounded-4 w-25">
+            <div style="overflow-y: auto; max-height: 40vh;overflow-x: hidden;padding-left: 5vw">
                 <strong><p class="p-3">Liste des Participants:</p></strong>
-                {% for participant in sortie.participants %}
-                    <a class="ps-3"
-                       href="{{ path('app_profil_participant', {'id': participant.id}) }}">{{ participant.prenom }} {{ participant.nom }}</a>
-                {% endfor %}
+                <div class="d-flex flex-column w-100 row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                    {% for participant in sortie.participants %}
+                        <a class="ps-3 btn btn-outline-light w-75 m-1" style="background: #96CEB4"
+                           href="{{ path('app_profil_participant', {'id': participant.id}) }}">{{ participant.prenom }} {{ participant.nom }}</a>
+                    {% endfor %}
+                </div>
+            </div>
             {% endif%}
 
             </div>
