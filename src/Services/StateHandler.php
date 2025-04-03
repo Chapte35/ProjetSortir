@@ -90,7 +90,7 @@ class StateHandler
 
                     if ($interval->days >= 30) {
                         foreach ($etats as $etat) {
-                            if ($etat->getLibelle() == 'Archiver') {
+                            if ($etat->getLibelle() == 'Archivée') {
                                 $sortie->setEtat($etat);
                             }
                         }

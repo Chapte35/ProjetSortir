@@ -36,6 +36,12 @@ body {
     display: none;
 }
 
+/* Afficher uniquement sur mobile et tablette */
+@media (max-width: 991px) {
+    .navbar-toggler {
+        display: block !important;
+    }
+}
 .mt-10 {
     margin-top: 10%;
 }

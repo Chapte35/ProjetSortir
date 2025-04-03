@@ -1,33 +1,65 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello VillesController!{% endblock %}
-
+{% block title %}Villes!{% endblock %}
 {% block body %}
+    <div class="container py-4">
+        <div class="card" style="background: #f8f4f0; border-radius: 15px; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);">
+            <div class="card-body">
+                <div class="d-flex justify-content-around align-items-center mb-4">
+                    <h3 class="mb-0 position-relative" style="color: #444; padding-bottom: 12px;">
+                        Liste des Villes
+                        <span class="position-absolute" style="bottom: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background: #96CEB4; border-radius: 3px;"></span>
+                    </h3>
+                    <a type="button" class="btn" href="{{ path('app_villesapp_villes_creer') }}" style="background-color: #96CEB4; color: white; font-weight: 600; border: none; padding: 10px 50px; border-radius: 8px;">
+                        Ajouter une ville
+                    </a>
+                </div>
 
-    <div class="m-5">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Ville</th>
-                <th scope="col">Code Postal</th>
-            </tr>
-            </thead>
+                {% set villesGauche = villes|slice(0, (villes|length / 2)|round(0, 'ceil')) %}
+                {% set villesDroite = villes|slice((villes|length / 2)|round(0, 'ceil')) %}
 
-            <tbody>
-            {% for ville in villes %}
-                <tr>
-                    <td>{{ ville.nom }}</td>
-                    <td>{{ ville.codepostal }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-
-
-        <span> <a type="button" class="btn btn-secondary w-100 mb-3" href="{{ path('app_villesapp_villes_creer') }}">Ajouter une ville</a> </span>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col" class="fw-bold">Ville</th>
+                                    <th scope="col" class="fw-bold">Code Postal</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for ville in villesGauche %}
+                                    <tr>
+                                        <td>{{ ville.nom }}</td>
+                                        <td>{{ ville.codepostal }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th scope="col" class="fw-bold">Ville</th>
+                                    <th scope="col" class="fw-bold">Code Postal</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for ville in villesDroite %}
+                                    <tr>
+                                        <td>{{ ville.nom }}</td>
+                                        <td>{{ ville.codepostal }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    
-
-
-
 {% endblock %}

@@ -13,7 +13,7 @@ class JustificationFormType extends AbstractType
     {
         $builder
             ->add('justification', TextareaType::class, [
-                'label' => 'Veuillez saisir le motif d\'annullation',
+                'label' => 'Veuillez saisir le motif d\'annulation',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'La justification est obligatoire'

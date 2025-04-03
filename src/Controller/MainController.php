@@ -25,9 +25,12 @@ final class MainController extends AbstractController
         EntityManagerInterface $em
     ): Response
     {
-        $sorties = $sortieRepository->findActiveSorties();
+
+    
 
         $stateHandler->handleStates($sorties);
+
+
 
 
 
