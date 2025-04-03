@@ -43,7 +43,7 @@ class StateHandler
 
 
 
-            if ($sortie->getEtat()->getLibelle() != 'Archiver' && $sortie->getEtat()->getLibelle() != 'Annulée' && $sortie->getEtat()->getLibelle() != 'Créée') {
+            if ($sortie->getEtat()->getLibelle() != 'Archivée' && $sortie->getEtat()->getLibelle() != 'Annulée' && $sortie->getEtat()->getLibelle() != 'Créée') {
 
 
                 if ($currentDate < $dateCloture && $currentDate < $dateDebut && $nbparticipants < $nbparticipantsmax) {
