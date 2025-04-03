@@ -99,6 +99,7 @@ final class SortieController extends AbstractController
         if ($etat != 'Ouverte'){
             $this->addFlash("warning","La sortie n'est pas publiée !");
         }
+
         if ($nbInsriptions >= $nbInsriptionsMax){
             $this->addFlash("warning","Ya pu d'place !");
         }

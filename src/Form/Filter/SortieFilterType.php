@@ -51,7 +51,8 @@ class SortieFilterType extends AbstractType
             ])
             ->add('moiOrganisateur', CheckboxType::class,[
                 'label' => 'Sortie dont je suis l\'organisateur',
-                'required' => false
+                'required' => false,
+
             ])
             ->add('moiInscrit', CheckboxType::class,[
                 'label' => 'Sorties auxquelles je suis inscrit(e)',

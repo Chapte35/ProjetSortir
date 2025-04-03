@@ -65,6 +65,9 @@ final class GroupePriveController extends AbstractController
             return $this->redirectToRoute('groupe_liste');
 
         }
+        if ($request->getSession()->get('is_mobile')) {
+            throw $this->createAccessDeniedException("Création de groupe interdite sur mobile.");
+        }
 
         return $this->render('groupe_prive/creer.html.twig', [
             'controller_name' => 'GroupePriveController',

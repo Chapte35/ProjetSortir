@@ -51,14 +51,18 @@ class SortieRepository extends ServiceEntityRepository
     /**
      * @throws \DateInvalidOperationException
      */
-    public function getSortiesAVenir()
-    {
+
+    public function getSortiesAVenir(){
         $builder = $this->em
             ->getRepository(Sortie::class)
             ->createQueryBuilder('sortie')
-            ->setParameter('now', new \DateTime());
+            ->andWhere('sortie.dateHeureDebut NOT BETWEEN :threeYearsBefore AND :now ')
+            ->setParameter('threeYearsBefore',(new \DateTime())->sub(new \DateInterval('P3Y')))
+            ->setParameter('now',new \DateTime())
+            ->orderBy('s.dateHeureDebut', 'ASC');
 
-        return $builder->getQuery()->getResult();
+            return $builder->getQuery()->getResult();
+
     }
 
 
@@ -111,6 +115,7 @@ class SortieRepository extends ServiceEntityRepository
             $filterBuiler->andWhere(':user NOT MEMBER OF sortie.participants')
                 ->setParameter("user", $user);
         }
+
         if ($sortiesPassees) {
             $filterBuiler->andWhere('sortie.dateHeureDebut BETWEEN :threeYearsAgo AND :now ')
                 ->setParameter('threeYearsAgo', (new \DateTime())->sub(new \DateInterval('P3Y')))
@@ -124,9 +129,6 @@ class SortieRepository extends ServiceEntityRepository
         $filterBuiler
             ->andWhere('e.libelle NOT LIKE :excludedStates')
             ->setParameter('excludedStates', 'Archivée');
-
-
-//        dd($filterBuiler->getQuery()->getResult());
 
 
         return $filterBuiler->orderBy('sortie.dateHeureDebut', 'ASC')
