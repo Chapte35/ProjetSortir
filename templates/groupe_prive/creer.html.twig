@@ -4,12 +4,12 @@
 
 {% block body %}
 
-    <div class=" container card card-body mt-3">
+    <div style="background: #f8f4f0;" class=" container card card-body mt-3">
         {{ form_errors(form) }}
         {{ form_start(form) }}
         {{ form_row(form.nom) }}
-        {{ form_row(form.membres) }}
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        {{ form_row(form.membres, {'attr': {'class': 'row row-cols-1 row-cols-sm-2 row-cols-md-4 m-3'}}) }}
+        <button style="background-color: #FFCB77; color: black; font-weight: 600; border: none; padding: 10px 50px; border-radius: 8px;" type="submit" class="btn w-100">Enregistrer</button>
         {{ form_end(form) }}
     </div>
 
