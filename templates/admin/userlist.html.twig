@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>User List</h1>
+
+    <div class="m-5">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Prenom</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Email</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+    {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.prenom }}</td>
+            <td>{{ user.nom }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                    {% if user.actif %}
+                <a type="button" class="btn btn-warning" href="{{ path('admin_app_admin_desactiver', {'id': user.id}) }}">Désactiver</a>
+                    {% endif %}
+                <a type="button" class="btn btn-danger" href="{{ path('admin_app_admin_supprimer', {'id': user.id}) }}">Supprimer</a>
+
+            </td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

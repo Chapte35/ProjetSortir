@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="custom-card shadow-lg p-4 rounded-4">
+
+            <div class="card-body">
+                {% if error %}
+                    <div class="alert alert-danger text-center">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="alert alert-info text-center">
+                        Vous êtes connecté en tant que <strong>{{ app.user.userIdentifier }}</strong>.
+                        <a href="{{ path('app_logout') }}" class="text-danger fw-bold">Déconnexion</a>
+                    </div>
+                {% endif %}
+
+                <form method="post">
+
+                    <h1 class="h3 mb-3 font-weight-normal text-center">Connectez-vous</h1>
+                    <label for="inputIdentifier">Email ou Pseudo</label>
+                    <input type="text" value="{{ last_username }}" name="email" id="inputIdentifier"
+                           class="form-control" autocomplete="email" required autofocus>
+                    <label for="inputPassword">Mot de passe</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control"
+                           autocomplete="current-password" required>
+
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" name="_remember_me" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
+                    </div>
+
+                    <div class="d-grid">
+                        <button class="btn custom-btn rounded-pill" type="submit">Se connecter</button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <a href="{{ path('app_forgot_password_request') }}" class="text-muted">
+                            Mot de passe oublié ?
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

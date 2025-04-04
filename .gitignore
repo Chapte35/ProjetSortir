@@ -1,5 +1,6 @@
 
 ###> symfony/framework-bundle ###
+/migrations
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -206,3 +207,19 @@ fabric.properties
 /web/js/
 
 # End of https://www.toptal.com/developers/gitignore/api/phpstorm,symfony,composer
+/.idea/codeception.xml
+/.idea/dataSources.xml
+/.idea/commandlinetools/schemas/frameworkDescriptionVersion1.1.4.xsd
+/.idea/modules.xml
+/.idea/php.xml
+/.idea/phpspec.xml
+/.idea/phpunit.xml
+/.idea/ProjetSortir.iml
+/.idea/commandlinetools/Symfony_3_25_25__9_17_AM.xml
+/.idea/vcs.xml
+/.env
+/.idea/symfony2.xml
+/.idea/commandlinetools/Symfony_3_25_25__12_12_PM.xml
+/migrations/Version20250325104615.php
+/.idea/commandlinetools/Symfony_3_31_25__11_47_AM.xml
+/.idea/jsLibraryMappings.xml

@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-lg" style="background-color: #ECE5D7;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('app_main') }}">
+            <img src="{{ asset('img/logo.png') }}" alt="logo" class="logo" style="height: 50px;">
+        </a>
+
+        <!-- Activation du bouton hamburger -->
+        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menu responsive -->
+        <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('admin_app_admin') }}">Dashboard Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_villesapp_villes-list') }}">Villes</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ path('app_main') }}">Sorties</a>
+                </li>
+                {% if app.user %}
+                    {% if not app.session.get('is_mobile') %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ path('sortie_creer') }}">Proposer un évènement</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_lieuapp_lieu') }}">Ajouter un lieu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_profil') }}">Mon profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('groupe_accueil') }}">Mes groupes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_logout') }}">Se déconnecter</a>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link">Bienvenue {{ app.user.pseudo }}</span>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_login') }}">Connexion</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
